@@ -204,11 +204,17 @@ var parseMetadata = metadata => {
                     enabled: false
                 },
                 xAxis: {
-                    categories: xCategories
+                    categories: xCategories,
+                    opposite: true,
+                    title: {
+                        text: dimensions[0].description || 'X Axis'
+                    }
                 },
                 yAxis: {
                     categories: yCategories,
-                    title: null,
+                    title: {
+                        text: dimensions[1].description || 'Y Axis'
+                    },
                     reversed: true
                 },
                 colorAxis: {
@@ -220,7 +226,7 @@ var parseMetadata = metadata => {
                     align: 'right',
                     layout: 'vertical',
                     margin: 0,
-                    verticalAlign: 'top',
+                    verticalAlign: 'middle',
                     y: 25,
                     symbolHeight: 280
                 },
