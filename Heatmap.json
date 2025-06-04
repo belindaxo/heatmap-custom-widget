@@ -1,0 +1,51 @@
+{
+    "name": "Heatmap",
+    "description": "A heatmap with data binding support",
+    "eula": "",
+    "vendor": "",
+    "license": "",
+    "id": "com.sap.sample.heatmap",
+    "newInstancePrefix": "Heatmap",
+    "version": "1.0.0",
+    "webcomponents": [
+        {
+            "kind": "main",
+            "tag": "com-sap-sample-heatmap",
+            "url": "https://belindaxo.github.io/heatmap-custom-widget/dist/bundle.js",
+            "integrity": "",
+            "ignoreIntegrity": true
+        }
+    ],
+    "properties": {
+        "width": {
+            "type": "integer",
+            "default": 600
+        },
+        "height": {
+            "type": "integer",
+            "default": 400
+        }
+    },
+    "methods": {
+
+    },
+    "events": {
+
+    },
+    "dataBindings": {
+        "dataBinding": {
+            "feeds": [
+                {
+                    "id": "dimensions",
+                    "description": "Dimensions",
+                    "type": "dimension"
+                },
+                {
+                    "id": "measures",
+                    "description": "Measures",
+                    "type": "mainStructureMember"
+                }
+            ]
+        }
+    }
+}
