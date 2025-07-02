@@ -140,15 +140,7 @@ var parseMetadata = metadata => {
                 ySet.add(yLabel);
             });
 
-            const xCategories = Array.from(xSet);
-
-            // Apply Top N filter if specified
-            const topN = parseInt(this.topN);
-            if (!isNaN(topN) && topN > 0) {
-                const sorted = Array.from(columnTotals.entries()).sort((a, b) => b[1] - a[1]).slice(0, topN).map(entry => entry[0]);
-
-                xCategories = sorted;
-            }
+            let xCategories = Array.from(xSet);
             const yCategories = Array.from(ySet);
 
             const columnTotals = new Map();
@@ -159,6 +151,14 @@ var parseMetadata = metadata => {
                 const value = row[measureKey].raw || 0;
                 columnTotals.set(xLabel, columnTotals.get(xLabel) + Math.abs(value));
             });
+
+            // Apply Top N filter if specified
+            const topN = parseInt(this.topN);
+            if (!isNaN(topN) && topN > 0) {
+                const sorted = Array.from(columnTotals.entries()).sort((a, b) => b[1] - a[1]).slice(0, topN).map(entry => entry[0]);
+
+                xCategories = sorted;
+            }
 
             console.log('Column Totals:');
             columnTotals.forEach((total, label) => {
