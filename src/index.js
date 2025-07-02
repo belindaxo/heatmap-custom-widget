@@ -195,7 +195,7 @@ var parseMetadata = metadata => {
                     enabled: true,
                     color: '#000000',
                     formatter: function () {
-                        return `${Highcharts.numberFormat(this.rawValue, 2)}`;
+                        return `${Highcharts.numberFormat(this.rawValue / 1000000, 2)} m`;
                     }
                 }
             }];
@@ -230,7 +230,7 @@ var parseMetadata = metadata => {
                     title: {
                         text: dimensions[1].description || 'Y Axis'
                     },
-                    reversed: true
+                    reversed: false
                 },
                 colorAxis: {
                     colorAxis: {
@@ -255,8 +255,8 @@ var parseMetadata = metadata => {
                     formatter: function () {
                         console.log(this);
                         return `<b>${this.series.name}</b><br>
-                                ${dimensions[0].description || 'X Axis'}: <b>${this.xCategory}</b><br>
-                                ${dimensions[1].description || 'Y Axis'}: <b>${this.yCategory}</b><br>
+                                ${dimensions[0].description || 'X Axis'}: <b>${this.category}</b><br>
+                                ${dimensions[1].description || 'Y Axis'}: <b>${this.series.yAxis.cateogires[this.y]}</b><br>
                                 Value: <b>${Highcharts.numberFormat(this.rawValue, 2)}</b>`;
                     }
                 },
