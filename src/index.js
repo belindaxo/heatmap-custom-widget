@@ -210,7 +210,7 @@ var parseMetadata = metadata => {
                 borderWidth: 1,
                 data: seriesData,
                 dataLabels: {
-                    enabled: this.showDataLabels || false,
+                    enabled: this.showDataLabels || true,
                     allowOverlap: this.allowOverlap || false,
                     formatter: function () {
                         return `${Highcharts.numberFormat(this.rawValue / 1000000, 2)}`;
@@ -259,6 +259,7 @@ var parseMetadata = metadata => {
                     opposite: false,
                     title: {
                         text: dimensions[0].description || 'X Axis',
+                        margin: 20,
                         style: {
                             fontSize: this.axisTitleSize || '14px',
                             color: this.axisTitleColor || '#000000'
@@ -269,6 +270,7 @@ var parseMetadata = metadata => {
                     categories: yCategories,
                     title: {
                         text: dimensions[1].description || 'Y Axis',
+                        margin: 20,
                         style: {
                             fontSize: this.axisTitleSize || '14px',
                             color: this.axisTitleColor || '#000000'
