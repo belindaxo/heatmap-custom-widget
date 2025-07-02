@@ -193,7 +193,10 @@ var parseMetadata = metadata => {
                 data: seriesData,
                 dataLabels: {
                     enabled: true,
-                    color: '#000000'
+                    color: '#000000',
+                    formatter: function () {
+                        return `${Highcharts.numberFormat(this.rawValue, 2)}`;
+                    }
                 }
             }];
             console.log('series:', series);
