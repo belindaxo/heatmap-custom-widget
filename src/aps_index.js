@@ -186,6 +186,17 @@
                 </td>
             </tr>
         </table>
+        <legend style="font-weight: bold; font-size: 18px">Rank</legend>
+        <table>
+            <tr>
+                <td>Top N (X-Axis)</td>
+            </tr>
+            <tr>
+                <td>
+                    <input id="topN" type="number" min="1"/>
+                </td>
+            </tr>
+        </table>
         <tr>
             <button id="resetDefaults" type="button" style="margin-top: 10px; margin-bottom: 10px;">Reset to Default</button>
         </tr>
@@ -239,6 +250,7 @@
             this._shadowRoot.getElementById('decimalPlaces').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('showDataLabels').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('allowOverlap').addEventListener('change', this._submit.bind(this));
+            this._shadowRoot.getElementById('topN').addEventListener('change', this._submit.bind(this));
 
             // Reset button logic
             this._shadowRoot.getElementById('resetDefaults').addEventListener('click', () => {
@@ -284,7 +296,8 @@
                         scaleFormat: this.scaleFormat,
                         decimalPlaces: this.decimalPlaces,
                         showDataLabels: this.showDataLabels,
-                        allowOverlap: this.allowOverlap
+                        allowOverlap: this.allowOverlap,
+                        topN: this.topN
                     }
                 }
             }));
@@ -401,6 +414,13 @@
         }
         set allowOverlap(value) {
             this._shadowRoot.getElementById('allowOverlap').checked = value;
+        }
+
+        get topN() {
+            return this._shadowRoot.getElementById('topN').value;
+        }
+        set topN(value) {
+            this._shadowRoot.getElementById('topN').value = value;
         }
     }
     customElements.define('com-sap-sample-heatmap-aps', HeatmapAps);

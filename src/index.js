@@ -98,7 +98,8 @@ var parseMetadata = metadata => {
                 'chartSubtitle', 'subtitleSize', 'subtitleFontStyle', 'subtitleAlignment', 'subtitleColor',             // Subtitle properties
                 'axisTitleSize', 'axisTitleColor',                                                                      // Axis title properties
                 'scaleFormat', 'decimalPlaces',                                                                         // Number formatting properties
-                'showDataLabels', 'allowOverlap'                                                                        // Data label properties                                                                                         // Custom colors 
+                'showDataLabels', 'allowOverlap',                                                                       // Data label properties
+                'topN'                                                                                                  // Ranking property 
             ];
         }
 
@@ -140,6 +141,14 @@ var parseMetadata = metadata => {
             });
 
             const xCategories = Array.from(xSet);
+
+            // Apply Top N filter if specified
+            const topN = parseInt(this.topN);
+            if (!isNaN(topN) && topN > 0) {
+                const sorted = Array.from(columnTotals.entries()).sort((a, b) => b[1] - a[1]).slice(0, topN).map(entry => entry[0]);
+
+                xCategories = sorted;
+            }
             const yCategories = Array.from(ySet);
 
             const columnTotals = new Map();
@@ -157,7 +166,7 @@ var parseMetadata = metadata => {
             })
 
             // Create heatmap data array
-            const seriesData = data.map(row => {
+            const seriesData = data.filter(row => xCategories.includes(row[xDimension.key].label)).map(row => {
                 const xLabel = row[xDimension.key].label || 'No Label';
                 const yLabel = row[yDimension.key].label || 'No Label';
                 const rawValue = row[measureKey].raw || 0;
