@@ -303,7 +303,7 @@ var parseMetadata = metadata => {
                     useHTML: true,
                     followPointer: true,
                     hideDelay: 0,
-                    formatter: this._formatTooltip(scaleFormat),
+                    formatter: this._formatTooltip(scaleFormat, dimensions),
                 },
                 legend: {
                     align: 'right',
@@ -384,7 +384,7 @@ var parseMetadata = metadata => {
             }
         }
 
-        _formatTooltip(scaleFormat) {
+        _formatTooltip(scaleFormat, dimensions) {
             return function () {
                 const seriesName = this.series.name || 'Series';
                 const rawValue = this.rawValue;
