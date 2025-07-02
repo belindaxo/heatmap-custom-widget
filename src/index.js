@@ -260,7 +260,7 @@ var parseMetadata = metadata => {
                     formatter: function () {
                         return `
                             <div style="text-align: left; font-family: '72', sans-serif; font-size: 14px;">
-                                <div style="font-size: 14px' font-weight: normal; color: #666666;">${this.series.name}</div>
+                                <div style="font-size: 14px; font-weight: normal; color: #666666;">${this.series.name}</div>
                                 <div style="font-size: 18px; font-weight: normal; color: #000000;">${Highcharts.numberFormat(this.rawValue / 1000000, 2)} m</div>
                                 <hr style="border: none; border-top: 1px solid #eee; margin: 5px 0;">
                                 <table style="width: 100%; font-size: 14px; color: #000000;">
