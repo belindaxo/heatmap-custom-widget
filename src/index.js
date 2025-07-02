@@ -257,20 +257,30 @@ var parseMetadata = metadata => {
                     }
                 },
                 tooltip: {
+                    useHTML: true,
+                    followPointer: true,
+                    hideDelay: 0,
                     formatter: function () {
+                        const seriesName = this.series.name || 'Series';
+                        const rawValue = this.rawValue;
+                        const valueInMillions = Highcharts.numberFormat(rawValue / 1000000, 2) + "m";
+                        const xLabel = this.category;
+                        const yLabel = this.series.yAxis.categories[this.y];
+                        const xDim = dimensions[0].description || 'X Axis';
+                        const yDim = dimensions[1].description || 'Y Axis';
                         return `
                             <div style="text-align: left; font-family: '72', sans-serif; font-size: 14px;">
-                                <div style="font-size: 14px; font-weight: normal; color: #666666;">${this.series.name}</div>
-                                <div style="font-size: 18px; font-weight: normal; color: #000000;">${Highcharts.numberFormat(this.rawValue / 1000000, 2)} m</div>
+                                <div style="font-size: 14px; font-weight: normal; color: #666666;">${seriesName}</div>
+                                <div style="font-size: 18px; font-weight: normal; color: #000000;">${valueInMillions} m</div>
                                 <hr style="border: none; border-top: 1px solid #eee; margin: 5px 0;">
                                 <table style="width: 100%; font-size: 14px; color: #000000;">
                                     <tr>
-                                        <td style="text-align: left; padding-right: 10px;">${dimensions[0].description || 'X Axis'}:</td>
-                                        <td style="text-align: right; padding-left: 10px;">${this.category}</td>
+                                        <td style="text-align: left; padding-right: 10px;">${xDim}</td>
+                                        <td style="text-align: right; padding-left: 10px;">${xLabel}</td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: left; padding-right: 10px;">${dimensions[1].description || 'Y Axis'}:</td>
-                                        <td style="text-align: right; padding-left: 10px;">${this.series.yAxis.categories[this.y]}</td>
+                                        <td style="text-align: left; padding-right: 10px;">${yDim}</td>
+                                        <td style="text-align: right; padding-left: 10px;">${yLabel}</td>
                                     </tr>
                                 </table>
                             </div>
