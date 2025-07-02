@@ -195,7 +195,7 @@ var parseMetadata = metadata => {
                     enabled: true,
                     color: '#000000',
                     formatter: function () {
-                        return `${Highcharts.numberFormat(this.rawValue / 1000000, 2)} m`;
+                        return `${Highcharts.numberFormat(this.rawValue / 1000000, 2)}`;
                     }
                 }
             }];
@@ -257,7 +257,7 @@ var parseMetadata = metadata => {
                         return `<b>${this.series.name}</b><br>
                                 ${dimensions[0].description || 'X Axis'}: <b>${this.category}</b><br>
                                 ${dimensions[1].description || 'Y Axis'}: <b>${this.series.yAxis.cateogires[this.y]}</b><br>
-                                Value: <b>${Highcharts.numberFormat(this.rawValue, 2)}</b>`;
+                                Value: <b>${Highcharts.numberFormat(this.rawValue / 1000000, 2)} m</b>`;
                     }
                 },
                 legend: {
