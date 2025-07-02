@@ -263,7 +263,7 @@ var parseMetadata = metadata => {
                     formatter: function () {
                         const seriesName = this.series.name || 'Series';
                         const rawValue = this.rawValue;
-                        const valueInMillions = Highcharts.numberFormat(rawValue / 1000000, 2) + "m";
+                        const valueInMillions = Highcharts.numberFormat(rawValue / 1000000, 2) + " m";
                         const xLabel = this.category;
                         const yLabel = this.series.yAxis.categories[this.y];
                         const xDim = dimensions[0].description || 'X Axis';
@@ -271,7 +271,7 @@ var parseMetadata = metadata => {
                         return `
                             <div style="text-align: left; font-family: '72', sans-serif; font-size: 14px;">
                                 <div style="font-size: 14px; font-weight: normal; color: #666666;">${seriesName}</div>
-                                <div style="font-size: 18px; font-weight: normal; color: #000000;">${valueInMillions} m</div>
+                                <div style="font-size: 18px; font-weight: normal; color: #000000;">${valueInMillions}</div>
                                 <hr style="border: none; border-top: 1px solid #eee; margin: 5px 0;">
                                 <table style="width: 100%; font-size: 14px; color: #000000;">
                                     <tr>
