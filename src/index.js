@@ -208,6 +208,13 @@ var parseMetadata = metadata => {
 
             const scaleFormat = (value) => this._scaleFormat(value);
             const subtitleText = this._updateSubtitle();
+            
+            const xLabel = dimensions[0].description || 'X Axis';
+            const yLabel = dimensions[1].description || 'Y Axis';
+            const measureLabel = measures[0].label || 'Measure';
+
+            const autoTitle = `${xLabel}, ${yLabel} per ${measureLabel}`;
+            const titleText = this._updateTitle(autoTitle, this.chartTitle);
 
             const series = [{
                 name: measures[0].label || 'Measure',
@@ -239,7 +246,7 @@ var parseMetadata = metadata => {
                     enabled: false
                 },
                 title: {
-                    text: this.chartTitle || '',
+                    text: titleText,
                     align: this.titleAlignment || 'left',
                     style: {
                         fontSize: this.titleSize || '16px',
@@ -373,6 +380,14 @@ var parseMetadata = metadata => {
                 return subtitleText;
             } else {
                 return this.chartSubtitle;
+            }
+        }
+
+        _updateTitle(autoTitle, chartTitle) {
+            if (!chartTitle || chartTitle === '') {
+                return autoTitle;
+            } else {
+                return chartTitle;
             }
         }
 
