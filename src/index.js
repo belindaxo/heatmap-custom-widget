@@ -128,16 +128,28 @@ var parseMetadata = metadata => {
             const xCategories = Array.from(xSet);
             const yCategories = Array.from(ySet);
 
+            const columnTotals = new Map();
+            xCategories.forEach(x => columnTotals.set(x, 0));
+
+            data.forEach(row => {
+                const xLabel = row[xDimension.key].label || "No Label";
+                const value = row[measureKey].raw || 0;
+                columnTotals.set(xLabel, columnTotals.get(xLabel) + Math.abs(value));
+            });
+
             // Create heatmap data array
             const seriesData = data.map(row => {
                 const xLabel = row[xDimension.key].label || 'No Label';
                 const yLabel = row[yDimension.key].label || 'No Label';
-                const value = row[measureKey].raw;
+                const rawValue = row[measureKey].raw || 0;
+                const colTotal = columnTotals.get(xLabel) || 1;
+                const proportion = rawValue / colTotal;
 
                 return {
                     x: xCategories.indexOf(xLabel),
                     y: yCategories.indexOf(yLabel),
-                    value: value
+                    value: proportion,
+                    rawValue: rawValue
                 };
             });
 
