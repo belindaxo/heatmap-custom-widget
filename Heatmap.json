@@ -14,6 +14,13 @@
             "url": "https://belindaxo.github.io/heatmap-custom-widget/dist/bundle.js",
             "integrity": "",
             "ignoreIntegrity": true
+        },
+        {
+            "kind": "styling",
+            "tag": "com-sap-sample-heatmap-aps",
+            "url": "https://belindaxo.github.io/heatmap-custom-widget/dist/bundle.js",
+            "integrity": "",
+            "ignoreIntegrity": true
         }
     ],
     "properties": {
@@ -24,6 +31,76 @@
         "height": {
             "type": "integer",
             "default": 400
+        },
+        "chartTitle": {
+            "type": "string",
+            "description": "The title of the chart",
+            "default": ""
+        },
+        "titleSize": {
+            "type": "string",
+            "description": "The font size of the title",
+            "default": "16px"
+        },
+        "titleFontStyle": {
+            "type": "string",
+            "description": "The font style of the title",
+            "default": "bold"
+        },
+        "titleAlignment": {
+            "type": "string",
+            "description": "The alignment of the title",
+            "default": "left"
+        },
+        "titleColor": {
+            "type": "string",
+            "description": "The color of the title text",
+            "default": "#004B8D"
+        },
+        "chartSubtitle": {
+            "type": "string",
+            "description": "The subtitle of the chart",
+            "default": ""
+        },
+        "subtitleSize": {
+            "type": "string",
+            "description": "The font size of the subtitle text",
+            "default": "11px"
+        },
+        "subtitleFontStyle": {
+            "type": "string",
+            "description": "The font style of the subtitle text",
+            "default": "normal"
+        },
+        "subtitleAlignment": {
+            "type": "string",
+            "description": "The alignment of the subtitle text",
+            "default": "left"
+        },
+        "subtitleColor": {
+            "type": "string",
+            "description": "The color of the subtitle text",
+            "default": "#000000"
+        },
+        "axisTitleSize": {
+            "type": "string",
+            "description": "The font size of the axis titles",
+            "default": "14px"
+        },
+        "axisTitleColor": {
+            "type": "string",
+            "description": "The color of the axis titles",
+            "default": "#000000"
+        },
+        "showDataLabels": {
+            "type": "boolean",
+            "description": "Whether to show data labels",
+            "default": true
+        },
+        "allowOverlap": {
+            "type": "boolean",
+            "description": "Whether to allow overlapping of data labels",
+            "default": false
         }
     },
     "methods": {

@@ -89,6 +89,19 @@ var parseMetadata = metadata => {
         }
 
         /**
+         * Specifies which attributes should trigger re-rendering on change.
+         * @returns {string[]} An array of observed attribute names.
+         */
+        static get observedAttributes() {
+            return [
+                'chartTitle', 'titleSize', 'titleFontStyle', 'titleAlignment', 'titleColor',                            // Title properties
+                'chartSubtitle', 'subtitleSize', 'subtitleFontStyle', 'subtitleAlignment', 'subtitleColor',             // Subtitle properties
+                'axisTitleSize', 'axisTitleColor',                                                                      // Axis title properties
+                'showDataLabels', 'allowOverlap'                                                                        // Data label properties                                                                                         // Custom colors 
+            ];
+        }
+
+        /**
          * Called when an observed attribute changes.
          * @param {string} name - The name of the changed attribute.
          * @param {string} oldValue - The old value of the attribute.
@@ -197,8 +210,8 @@ var parseMetadata = metadata => {
                 borderWidth: 1,
                 data: seriesData,
                 dataLabels: {
-                    enabled: true,
-                    color: '#000000',
+                    enabled: this.showDataLabels || false,
+                    allowOverlap: this.allowOverlap || false,
                     formatter: function () {
                         return `${Highcharts.numberFormat(this.rawValue / 1000000, 2)}`;
                     }
@@ -223,17 +236,43 @@ var parseMetadata = metadata => {
                 credits: {
                     enabled: false
                 },
+                title: {
+                    text: this.chartTitle || '',
+                    align: this.titleAlignment || 'left',
+                    style: {
+                        fontSize: this.titleSize || '16px',
+                        fontWeight: this.titleFontStyle || 'bold',
+                        color: this.titleColor || '#004b8d'
+                    }
+                },
+                subtitle: {
+                    text: this.chartSubtitle || "",
+                    align: this.subtitleAlignment || "left",
+                    style: {
+                        fontSize: this.subtitleSize || "11px",
+                        fontStyle: this.subtitleFontStyle || "normal",
+                        color: this.subtitleColor || "#000000",
+                    },
+                },
                 xAxis: {
                     categories: xCategories,
                     opposite: false,
                     title: {
-                        text: dimensions[0].description || 'X Axis'
+                        text: dimensions[0].description || 'X Axis',
+                        style: {
+                            fontSize: this.axisTitleSize || '14px',
+                            color: this.axisTitleColor || '#000000'
+                        }
                     }
                 },
                 yAxis: {
                     categories: yCategories,
                     title: {
-                        text: dimensions[1].description || 'Y Axis'
+                        text: dimensions[1].description || 'Y Axis',
+                        style: {
+                            fontSize: this.axisTitleSize || '14px',
+                            color: this.axisTitleColor || '#000000'
+                        }
                     },
                     reversed: false
                 },
