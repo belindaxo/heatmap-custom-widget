@@ -380,7 +380,8 @@ var parseMetadata = metadata => {
             return function () {
                 const rawValue = this.rawValue;
                 const { scaledValue, valueSuffix } = scaleFormat(rawValue);
-                return `${scaledValue}`;
+                const value = Highcharts.numberFormat(scaledValue, -1, '.', ',');
+                return `${value}`;
             }
         }
 
