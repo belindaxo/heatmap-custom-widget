@@ -213,7 +213,7 @@ var parseMetadata = metadata => {
             const yLabel = dimensions[1].description || 'Y Axis';
             const measureLabel = measures[0].label || 'Measure';
 
-            const autoTitle = `${xLabel}, ${yLabel} per ${measureLabel}`;
+            const autoTitle = `${measureLabel} per ${xLabel}, ${yLabel}`;
             const titleText = this._updateTitle(autoTitle, this.chartTitle);
 
             const series = [{
