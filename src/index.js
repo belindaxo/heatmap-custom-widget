@@ -258,11 +258,23 @@ var parseMetadata = metadata => {
                 },
                 tooltip: {
                     formatter: function () {
-                        console.log(this);
-                        return `<b>${this.series.name}</b><br>
-                                ${dimensions[0].description || 'X Axis'}: <b>${this.category}</b><br>
-                                ${dimensions[1].description || 'Y Axis'}: <b>${this.series.yAxis.categories[this.y]}</b><br>
-                                Value: <b>${Highcharts.numberFormat(this.rawValue / 1000000, 2)} m</b>`;
+                        return `
+                            <div style="text-align: left; font-family: '72', sans-serif; font-size: 14px;">
+                                <div style="font-size: 14px' font-weight: normal; color: #666666;">${this.series.name}</div>
+                                <div style="font-size: 18px; font-weight: normal; color: #000000;">${Highcharts.numberFormat(this.rawValue / 1000000, 2)} m</div>
+                                <hr style="border: none; border-top: 1px solid #eee; margin: 5px 0;">
+                                <table style="width: 100%; font-size: 14px; color: #000000;">
+                                    <tr>
+                                        <td style="text-align: left; padding-right: 10px;">${dimensions[0].description || 'X Axis'}:</td>
+                                        <td style="text-align: right; padding-left: 10px;">${this.category}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left; padding-right: 10px;">${dimensions[1].description || 'Y Axis'}:</td>
+                                        <td style="text-align: right; padding-left: 10px;">${this.series.yAxis.categories[this.y]}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        `;                       
                     }
                 },
                 legend: {
