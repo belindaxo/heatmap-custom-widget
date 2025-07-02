@@ -230,9 +230,32 @@ var parseMetadata = metadata => {
                     reversed: true
                 },
                 colorAxis: {
-                    min: 0,
-                    minColor: '#FFFFFF',
-                    maxColor: Highcharts.getOptions().colors[0],
+                    colorAxis: {
+                        stops: [
+                            [-0.001, '#FFC0CB'],
+                            [0, '#FFFFFF'],
+                            [0.01, '#F0F8FF'],
+                            [0.15, '#87CEFA'],
+                            [0.3, '#4876FF'],
+                            [0.4, '#0000FF'],
+                            [0.5, '#0000EE'],
+                            [0.6, '#0000CD'],
+                            [0.8, '#00008B'],
+                            [0.9, '#000080'],
+                            [1, '#191970']
+                        ],
+                        min: 0,
+                        max: 1
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        console.log(this);
+                        return `<b>${this.series.name}</b><br>
+                                ${dimensions[0].description || 'X Axis'}: <b>${this.xCategory}</b><br>
+                                ${dimensions[1].description || 'Y Axis'}: <b>${this.yCategory}</b><br>
+                                Value: <b>${Highcharts.numberFormat(this.rawValue, 2)}</b>`;
+                    }
                 },
                 legend: {
                     align: 'right',
