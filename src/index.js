@@ -256,7 +256,7 @@ var parseMetadata = metadata => {
                         console.log(this);
                         return `<b>${this.series.name}</b><br>
                                 ${dimensions[0].description || 'X Axis'}: <b>${this.category}</b><br>
-                                ${dimensions[1].description || 'Y Axis'}: <b>${this.series.yAxis.cateogires[this.y]}</b><br>
+                                ${dimensions[1].description || 'Y Axis'}: <b>${this.series.yAxis.categories[this.y]}</b><br>
                                 Value: <b>${Highcharts.numberFormat(this.rawValue / 1000000, 2)} m</b>`;
                     }
                 },
