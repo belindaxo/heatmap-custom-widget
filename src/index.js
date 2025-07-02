@@ -298,21 +298,10 @@ var parseMetadata = metadata => {
                 },
                 colorAxis: {
                     colorAxis: {
-                        stops: [
-                            [-0.001, '#FFC0CB'],
-                            [0, '#FFFFFF'],
-                            [0.01, '#d6ecff'],
-                            [0.15, '#add9ff'],
-                            [0.3, '#70bcff'],
-                            [0.4, '#47a9ff'],
-                            [0.5, '#1f96ff'],
-                            [0.6, '#0083f5'],
-                            [0.8, '#006dcc'],
-                            [0.9, '#0057a3'],
-                            [1, '#004b8d']
-                        ],
                         min: 0,
-                        max: 1
+                        max: 1,
+                        minColor: '#FFFFFF',
+                        maxColor: Highcharts.getOptions().colors[0],
                     }
                 },
                 tooltip: {
