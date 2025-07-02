@@ -137,6 +137,11 @@ var parseMetadata = metadata => {
                 columnTotals.set(xLabel, columnTotals.get(xLabel) + Math.abs(value));
             });
 
+            console.log('Column Totals:');
+            columnTotals.forEach((total, label) => {
+                console.log(`${label}: ${total}`);
+            })
+
             // Create heatmap data array
             const seriesData = data.map(row => {
                 const xLabel = row[xDimension.key].label || 'No Label';
