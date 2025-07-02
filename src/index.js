@@ -205,7 +205,7 @@ var parseMetadata = metadata => {
                 },
                 xAxis: {
                     categories: xCategories,
-                    opposite: true,
+                    opposite: false,
                     title: {
                         text: dimensions[0].description || 'X Axis'
                     }
