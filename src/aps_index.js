@@ -140,6 +140,37 @@
                 </table>
             </tr>
         </table>
+        <legend style="font-weight: bold;font-size: 18px;"> Number Formatting </legend>
+        <table>
+            <tr>
+                <td>Scale Format</td>
+            </tr>
+            <tr>
+                <td>
+                    <select id="scaleFormat">
+                        <option value="unformatted" selected>Unformatted</option>
+                        <option value="k">Thousands (k)</option>
+                        <option value="m">Millions (m)</option>
+                        <option value="b">Billions (b)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Decimal Places</td>
+            </tr>
+            <tr>
+                <td>
+                    <select id="decimalPlaces">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2" selected>2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
         <legend style="font-weight: bold; font-size: 18px">Data Labels</legend>
         <table>
             <tr>
@@ -204,6 +235,8 @@
             this._shadowRoot.getElementById('subtitleColor').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('axisTitleSize').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('axisTitleColor').addEventListener('change', this._submit.bind(this));
+            this._shadowRoot.getElementById('scaleFormat').addEventListener('change', this._submit.bind(this));
+            this._shadowRoot.getElementById('decimalPlaces').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('showDataLabels').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('allowOverlap').addEventListener('change', this._submit.bind(this));
 
@@ -248,6 +281,8 @@
                         subtitleColor: this.subtitleColor,
                         axisTitleSize: this.axisTitleSize,
                         axisTitleColor: this.axisTitleColor,
+                        scaleFormat: this.scaleFormat,
+                        decimalPlaces: this.decimalPlaces,
                         showDataLabels: this.showDataLabels,
                         allowOverlap: this.allowOverlap
                     }
@@ -338,6 +373,20 @@
         }
         set axisTitleColor(value) {
             this._shadowRoot.getElementById('axisTitleColor').value = value;
+        }
+
+        get scaleFormat() {
+            return this._shadowRoot.getElementById('scaleFormat').value;
+        }
+        set scaleFormat(value) {
+            this._shadowRoot.getElementById('scaleFormat').value = value;
+        }
+
+        get decimalPlaces() {
+            return this._shadowRoot.getElementById('decimalPlaces').value;
+        }
+        set decimalPlaces(value) {
+            this._shadowRoot.getElementById('decimalPlaces').value = value;
         }
 
         get showDataLabels() {

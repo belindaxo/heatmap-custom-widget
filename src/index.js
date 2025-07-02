@@ -97,6 +97,7 @@ var parseMetadata = metadata => {
                 'chartTitle', 'titleSize', 'titleFontStyle', 'titleAlignment', 'titleColor',                            // Title properties
                 'chartSubtitle', 'subtitleSize', 'subtitleFontStyle', 'subtitleAlignment', 'subtitleColor',             // Subtitle properties
                 'axisTitleSize', 'axisTitleColor',                                                                      // Axis title properties
+                'scaleFormat', 'decimalPlaces',                                                                         // Number formatting properties
                 'showDataLabels', 'allowOverlap'                                                                        // Data label properties                                                                                         // Custom colors 
             ];
         }
@@ -205,6 +206,9 @@ var parseMetadata = metadata => {
             console.log('yCategories:', yCategories);
             console.log('seriesData:', seriesData);
 
+            const scaleFormat = (value) => this._scaleFormat(value);
+            const subtitleText = this._updateSubtitle();
+
             const series = [{
                 name: measures[0].label || 'Measure',
                 borderWidth: 1,
@@ -212,9 +216,7 @@ var parseMetadata = metadata => {
                 dataLabels: {
                     enabled: this.showDataLabels || true,
                     allowOverlap: this.allowOverlap || false,
-                    formatter: function () {
-                        return `${Highcharts.numberFormat(this.rawValue / 1000000, 2)}`;
-                    }
+                    formatter: this._formatDataLabels(scaleFormat)
                 }
             }];
             console.log('series:', series);
@@ -246,7 +248,7 @@ var parseMetadata = metadata => {
                     }
                 },
                 subtitle: {
-                    text: this.chartSubtitle || "",
+                    text: subtitleText,
                     align: this.subtitleAlignment || "left",
                     style: {
                         fontSize: this.subtitleSize || "11px",
@@ -301,32 +303,7 @@ var parseMetadata = metadata => {
                     useHTML: true,
                     followPointer: true,
                     hideDelay: 0,
-                    formatter: function () {
-                        const seriesName = this.series.name || 'Series';
-                        const rawValue = this.rawValue;
-                        const valueInMillions = Highcharts.numberFormat(rawValue / 1000000, 2) + " m";
-                        const xLabel = this.category;
-                        const yLabel = this.series.yAxis.categories[this.y];
-                        const xDim = dimensions[0].description || 'X Axis';
-                        const yDim = dimensions[1].description || 'Y Axis';
-                        return `
-                            <div style="text-align: left; font-family: '72', sans-serif; font-size: 14px;">
-                                <div style="font-size: 14px; font-weight: normal; color: #666666;">${seriesName}</div>
-                                <div style="font-size: 18px; font-weight: normal; color: #000000;">${valueInMillions}</div>
-                                <hr style="border: none; border-top: 1px solid #eee; margin: 5px 0;">
-                                <table style="width: 100%; font-size: 14px; color: #000000;">
-                                    <tr>
-                                        <td style="text-align: left; padding-right: 10px;">${xDim}</td>
-                                        <td style="text-align: right; padding-left: 10px;">${xLabel}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: left; padding-right: 10px;">${yDim}</td>
-                                        <td style="text-align: right; padding-left: 10px;">${yLabel}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        `;                       
-                    }
+                    formatter: this._formatTooltip(scaleFormat),
                 },
                 legend: {
                     align: 'right',
@@ -339,6 +316,103 @@ var parseMetadata = metadata => {
                 series
             }
             this._chart = Highcharts.chart(this.shadowRoot.getElementById('container'), chartOptions);
+        }
+
+        /**
+         * Scales a value based on the selected scale format (k, m, b).
+         * @param {number} value 
+         * @returns {Object} An object containing the scaled value and its suffix.
+         */
+        _scaleFormat(value) {
+            let scaledValue = value;
+            let valueSuffix = '';
+
+            switch (this.scaleFormat) {
+                case 'k':
+                    scaledValue = value / 1000;
+                    valueSuffix = 'k';
+                    break;
+                case 'm':
+                    scaledValue = value / 1000000;
+                    valueSuffix = 'm';
+                    break;
+                case 'b':
+                    scaledValue = value / 1000000000;
+                    valueSuffix = 'b';
+                    break;
+                default:
+                    break;
+            }
+            return {
+                scaledValue: scaledValue.toFixed(this.decimalPlaces),
+                valueSuffix
+            };
+        }
+
+        /**
+         * Determines subtitle text based on scale format or user input.
+         * @returns {string} The subtitle text.
+         */
+        _updateSubtitle() {
+            if (!this.chartSubtitle || this.chartSubtitle === '') {
+                let subtitleText = '';
+                switch (this.scaleFormat) {
+                    case 'k':
+                        subtitleText = 'in k';
+                        break;
+                    case 'm':
+                        subtitleText = 'in m';
+                        break;
+                    case 'b':
+                        subtitleText = 'in b';
+                        break;
+                    default:
+                        subtitleText = '';
+                        break;
+                }
+                return subtitleText;
+            } else {
+                return this.chartSubtitle;
+            }
+        }
+
+        _formatDataLabels(scaleFormat) {
+            return function () {
+                const rawValue = this.rawValue;
+                const { scaledValue, valueSuffix } = scaleFormat(rawValue);
+                return `${scaledValue}`;
+            }
+        }
+
+        _formatTooltip(scaleFormat) {
+            return function () {
+                const seriesName = this.series.name || 'Series';
+                const rawValue = this.rawValue;
+                const { scaledValue, valueSuffix } = scaleFormat(rawValue);
+                const value = Highcharts.numberFormat(scaledValue, -1, '.', ',');
+                const valueWithSuffix = `${value} ${valueSuffix}`;
+                const xLabel = this.category;
+                const yLabel = this.series.yAxis.categories[this.y];
+                const xDim = dimensions[0].description || 'X Axis';
+                const yDim = dimensions[1].description || 'Y Axis';
+                return `
+                    <div style="text-align: left; font-family: '72', sans-serif; font-size: 14px;">
+                        <div style="font-size: 14px; font-weight: normal; color: #666666;">${seriesName}</div>
+                        <div style="font-size: 18px; font-weight: normal; color: #000000;">${valueWithSuffix}</div>
+                        <hr style="border: none; border-top: 1px solid #eee; margin: 5px 0;">
+                        <table style="width: 100%; font-size: 14px; color: #000000;">
+                            <tr>
+                                <td style="text-align: left; padding-right: 10px;">${xDim}</td>
+                                <td style="text-align: right; padding-left: 10px;">${xLabel}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; padding-right: 10px;">${yDim}</td>
+                                <td style="text-align: right; padding-left: 10px;">${yLabel}</td>
+                            </tr>
+                        </table>
+                    </div>
+                `;
+            }
         }
     }
     customElements.define('com-sap-sample-heatmap', Heatmap);
