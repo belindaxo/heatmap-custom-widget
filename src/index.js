@@ -217,7 +217,7 @@ var parseMetadata = metadata => {
 
             const scaleFormat = (value) => this._scaleFormat(value);
             const subtitleText = this._updateSubtitle();
-            
+
             const xLabel = dimensions[0].description || 'X Axis';
             const yLabel = dimensions[1].description || 'Y Axis';
             const measureLabel = measures[0].label || 'Measure';
@@ -297,12 +297,10 @@ var parseMetadata = metadata => {
                     reversed: false
                 },
                 colorAxis: {
-                    colorAxis: {
-                        min: 0,
-                        max: 1,
-                        minColor: '#FFFFFF',
-                        maxColor: Highcharts.getOptions().colors[0],
-                    }
+                    min: 0,
+                    max: 1,
+                    minColor: '#FFFFFF',
+                    maxColor: Highcharts.getOptions().colors[0],
                 },
                 tooltip: {
                     useHTML: true,
