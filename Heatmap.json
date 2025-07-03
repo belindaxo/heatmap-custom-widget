@@ -120,6 +120,16 @@
         "topN": {
             "type": "integer",
             "description": "The number of top items to display"
+        },
+        "minColor": {
+            "type": "string",
+            "description": "The color for the minimum value",
+            "default": "#99CFFF"
+        },
+        "maxColor": {
+            "type": "string",
+            "description": "The color for the maximum value",
+            "default": "#004B8D"
         }
     },
     "methods": {

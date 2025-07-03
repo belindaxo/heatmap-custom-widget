@@ -192,23 +192,14 @@
         <table>
             <tr>
                 <td>
-                    <input id="showDataLabels" type="checkbox" checked />
+                    <input id="showDataLabels" type="checkbox" checked/>
                     <label for="showDataLabels">Show data labels</label>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input id="allowOverlap" type="checkbox" />
+                    <input id="allowOverlap" type="checkbox"/>
                     <label for="allowOverlap">Allow overlap</label>
-                </td>
-            </tr>
-        </table>
-        <legend style="font-weight: bold; font-size: 18px">Legend</legend>
-        <table>
-            <tr>
-                <td>
-                    <input id="showLegend" type="checkbox" checked />
-                    <label for="showLegend">Show legend</label>
                 </td>
             </tr>
         </table>
@@ -219,16 +210,29 @@
             </tr>
             <tr>
                 <td>
-                    <input id="topN" type="number" min="1" />
+                    <input id="topN" type="number" min="1"/>
                 </td>
             </tr>
         </table>
+        <legend style="font-weight: bold; font-size: 18px">Colors</legend>
+        <table>
+            <tr>
+                <td>Min. Color</td>
+                <td>Max. Color</td>
+            </tr>
+            <tr>
+                <td>
+                    <input id="minColor" type="color" value="#99CFFF">
+                </td>
+                <td>
+                    <input id="maxColor" type="color" value="#004B8D">
+                </td>
+        </table>
         <tr>
-            <button id="resetDefaults" type="button" style="margin-top: 10px; margin-bottom: 10px;">Reset to
-                Default</button>
+            <button id="resetDefaults" type="button" style="margin-top: 10px; margin-bottom: 10px;">Reset to Default</button>
         </tr>
         <input type="submit" style="display:none;">
-    </form>
+        </form>
 </body>
 
 </html>

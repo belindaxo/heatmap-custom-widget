@@ -99,7 +99,8 @@ var parseMetadata = metadata => {
                 'showAxisTitles', 'axisTitleSize', 'axisTitleColor',                                                    // Axis title properties
                 'scaleFormat', 'decimalPlaces',                                                                         // Number formatting properties
                 'showDataLabels', 'allowOverlap',                                                                       // Data label properties
-                'topN'                                                                                                  // Ranking property 
+                'topN',                                                                                                 // Ranking property
+                'minColor', 'maxColor'                                                                                  // Color  properties 
             ];
         }
 
@@ -301,8 +302,8 @@ var parseMetadata = metadata => {
                 colorAxis: {
                     min: 0,
                     max: 1,
-                    minColor: '#99CFFF',
-                    maxColor: Highcharts.getOptions().colors[0],
+                    minColor: this.minColor || '#99CFFF',
+                    maxColor: this.maxColor || Highcharts.getOptions().colors[0],
                 },
                 tooltip: {
                     useHTML: true,

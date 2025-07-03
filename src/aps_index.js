@@ -1,3 +1,4 @@
+const defaultColors = ['#004b8d', '#939598', '#faa834', '#00aa7e', '#47a5dc', '#006ac7', '#ccced2', '#bf8028', '#00e4a7'];
 (function () {
     /**
      * Template for the Styling Panel (APS) of the Funnel3D widget.
@@ -203,6 +204,20 @@
                 </td>
             </tr>
         </table>
+        <legend style="font-weight: bold; font-size: 18px">Colors</legend>
+        <table>
+            <tr>
+                <td>Min. Color</td>
+                <td>Max. Color</td>
+            </tr>
+            <tr>
+                <td>
+                    <input id="minColor" type="color" value="#99CFFF">
+                </td>
+                <td>
+                    <input id="maxColor" type="color" value="#004B8D">
+                </td>
+        </table>
         <tr>
             <button id="resetDefaults" type="button" style="margin-top: 10px; margin-bottom: 10px;">Reset to Default</button>
         </tr>
@@ -238,7 +253,9 @@
                 scaleFormat: 'unformatted',
                 decimalPlaces: '2',
                 showDataLabels: true,
-                allowOverlap: false
+                allowOverlap: false,
+                minColor: '#99CFFF',
+                maxColor: '#004B8D'
             }
 
             this._shadowRoot = this.attachShadow({ mode: 'open' });
@@ -261,6 +278,8 @@
             this._shadowRoot.getElementById('showDataLabels').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('allowOverlap').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('topN').addEventListener('change', this._submit.bind(this));
+            this._shadowRoot.getElementById('minColor').addEventListener('change', this._submit.bind(this));
+            this._shadowRoot.getElementById('maxColor').addEventListener('change', this._submit.bind(this));
 
             // Reset button logic
             this._shadowRoot.getElementById('resetDefaults').addEventListener('click', () => {
@@ -308,7 +327,9 @@
                         decimalPlaces: this.decimalPlaces,
                         showDataLabels: this.showDataLabels,
                         allowOverlap: this.allowOverlap,
-                        topN: this.topN
+                        topN: this.topN,
+                        minColor: this.minColor,
+                        maxColor: this.maxColor
                     }
                 }
             }));
@@ -439,6 +460,20 @@
         }
         set topN(value) {
             this._shadowRoot.getElementById('topN').value = value;
+        }
+
+        get minColor() {
+            return this._shadowRoot.getElementById('minColor').value;
+        }
+        set minColor(value) {
+            this._shadowRoot.getElementById('minColor').value = value;
+        }
+
+        get maxColor() {
+            return this._shadowRoot.getElementById('maxColor').value;
+        }
+        set maxColor(value) {
+            this._shadowRoot.getElementById('maxColor').value = value;
         }
     }
     customElements.define('com-sap-sample-heatmap-aps', HeatmapAps);
