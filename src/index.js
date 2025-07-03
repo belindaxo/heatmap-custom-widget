@@ -94,12 +94,13 @@ var parseMetadata = metadata => {
          */
         static get observedAttributes() {
             return [
-                'chartTitle', 'titleSize', 'titleFontStyle', 'titleAlignment', 'titleColor',                            // Title properties
-                'chartSubtitle', 'subtitleSize', 'subtitleFontStyle', 'subtitleAlignment', 'subtitleColor',             // Subtitle properties
-                'showAxisTitles', 'axisTitleSize', 'axisTitleColor',                                                    // Axis title properties
-                'scaleFormat', 'decimalPlaces',                                                                         // Number formatting properties
-                'showDataLabels', 'allowOverlap',                                                                       // Data label properties
-                'topN'                                                                                                  // Ranking property 
+                'chartTitle', 'titleSize', 'titleFontStyle', 'titleAlignment', 'titleColor',                // Title properties
+                'chartSubtitle', 'subtitleSize', 'subtitleFontStyle', 'subtitleAlignment', 'subtitleColor', // Subtitle properties
+                'showAxisTitles', 'axisTitleSize', 'axisTitleColor',                                        // Axis title properties
+                'scaleFormat', 'decimalPlaces',                                                             // Number formatting properties
+                'showDataLabels', 'allowOverlap',                                                           // Data label properties
+                'showLegend',                                                                               // Legend properties
+                'topN'                                                                                      // Ranking property 
             ];
         }
 
@@ -273,6 +274,9 @@ var parseMetadata = metadata => {
                         fontStyle: this.subtitleFontStyle || "normal",
                         color: this.subtitleColor || "#000000",
                     },
+                },
+                legend: {
+                    enabled: this.showLegend || true
                 },
                 xAxis: {
                     categories: xCategories,
