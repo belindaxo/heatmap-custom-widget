@@ -94,12 +94,12 @@ var parseMetadata = metadata => {
          */
         static get observedAttributes() {
             return [
-                'chartTitle', 'titleSize', 'titleFontStyle', 'titleAlignment', 'titleColor',                // Title properties
-                'chartSubtitle', 'subtitleSize', 'subtitleFontStyle', 'subtitleAlignment', 'subtitleColor', // Subtitle properties
-                'showAxisTitles', 'axisTitleSize', 'axisTitleColor',                                        // Axis title properties
-                'scaleFormat', 'decimalPlaces',                                                             // Number formatting properties
-                'showDataLabels', 'allowOverlap',                                                           // Data label properties
-                'topN'                                                                                      // Ranking property 
+                'chartTitle', 'titleSize', 'titleFontStyle', 'titleAlignment', 'titleColor',                            // Title properties
+                'chartSubtitle', 'subtitleSize', 'subtitleFontStyle', 'subtitleAlignment', 'subtitleColor',             // Subtitle properties
+                'showAxisTitles', 'axisTitleSize', 'axisTitleColor',                                                    // Axis title properties
+                'scaleFormat', 'decimalPlaces',                                                                         // Number formatting properties
+                'showDataLabels', 'allowOverlap',                                                                       // Data label properties
+                'topN'                                                                                                  // Ranking property 
             ];
         }
 
