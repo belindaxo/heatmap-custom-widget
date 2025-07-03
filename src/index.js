@@ -200,7 +200,7 @@ var parseMetadata = metadata => {
             console.log('measures:', measures);
             console.log('data:', data);
 
-            if (dimensions.length < 1 || measures.length < 1) {
+            if (dimensions.length < 2 || measures.length < 1) {
                 if (this._chart) {
                     this._chart.destroy();
                     this._chart = null;
