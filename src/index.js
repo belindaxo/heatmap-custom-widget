@@ -232,7 +232,7 @@ var parseMetadata = metadata => {
                 borderWidth: 1,
                 data: seriesData,
                 dataLabels: {
-                    enabled: this.showDataLabels || true,
+                    enabled: this.showDataLabels,
                     allowOverlap: this.allowOverlap || false,
                     formatter: this._formatDataLabels(scaleFormat)
                 }
