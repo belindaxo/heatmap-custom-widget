@@ -192,15 +192,6 @@
                 </td>
             </tr>
         </table>
-        <legend style="font-weight: bold; font-size: 18px">Legend</legend>
-        <table>
-            <tr>
-                <td>
-                    <input id="showLegend" type="checkbox" checked />
-                    <label for="showLegend">Show legend</label>
-                </td>
-            </tr>
-        </table>
         <legend style="font-weight: bold; font-size: 18px">Rank</legend>
         <table>
             <tr>
@@ -245,8 +236,7 @@
                 axisTitleSize: '14px',
                 axisTitleColor: '#000000',
                 showDataLabels: true,
-                allowOverlap: false,
-                showLegend: true
+                allowOverlap: false
             }
 
             this._shadowRoot = this.attachShadow({ mode: 'open' });
@@ -268,7 +258,6 @@
             this._shadowRoot.getElementById('decimalPlaces').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('showDataLabels').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('allowOverlap').addEventListener('change', this._submit.bind(this));
-            this._shadowRoot.getElementById('showLegend').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('topN').addEventListener('change', this._submit.bind(this));
 
             // Reset button logic
@@ -317,7 +306,6 @@
                         decimalPlaces: this.decimalPlaces,
                         showDataLabels: this.showDataLabels,
                         allowOverlap: this.allowOverlap,
-                        showLegend: this.showLegend,
                         topN: this.topN
                     }
                 }
@@ -442,13 +430,6 @@
         }
         set allowOverlap(value) {
             this._shadowRoot.getElementById('allowOverlap').checked = value;
-        }
-
-        get showLegend() {
-            return this._shadowRoot.getElementById('showLegend').checked;
-        }
-        set showLegend(value) {
-            this._shadowRoot.getElementById('showLegend').checked = value;
         }
 
         get topN() {

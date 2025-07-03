@@ -117,11 +117,6 @@
             "description": "Whether to allow overlapping of data labels",
             "default": false
         },
-        "showLegend": {
-            "type": "boolean",
-            "description": "Whether to show the legend",
-            "default": true
-        },
         "topN": {
             "type": "integer",
             "description": "The number of top items to display"

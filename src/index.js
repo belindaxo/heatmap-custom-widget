@@ -99,7 +99,6 @@ var parseMetadata = metadata => {
                 'showAxisTitles', 'axisTitleSize', 'axisTitleColor',                                        // Axis title properties
                 'scaleFormat', 'decimalPlaces',                                                             // Number formatting properties
                 'showDataLabels', 'allowOverlap',                                                           // Data label properties
-                'showLegend',                                                                               // Legend properties
                 'topN'                                                                                      // Ranking property 
             ];
         }
@@ -274,9 +273,6 @@ var parseMetadata = metadata => {
                         fontStyle: this.subtitleFontStyle || "normal",
                         color: this.subtitleColor || "#000000",
                     },
-                },
-                legend: {
-                    enabled: this.showLegend || true
                 },
                 xAxis: {
                     categories: xCategories,
