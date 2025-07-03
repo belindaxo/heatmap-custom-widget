@@ -235,6 +235,8 @@
                 showAxisTitles: true,
                 axisTitleSize: '14px',
                 axisTitleColor: '#000000',
+                scaleFormat: 'unformatted',
+                decimalPlaces: '2',
                 showDataLabels: true,
                 allowOverlap: false
             }
