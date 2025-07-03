@@ -299,7 +299,7 @@ var parseMetadata = metadata => {
                 colorAxis: {
                     min: 0,
                     max: 1,
-                    minColor: '#FFFFFF',
+                    minColor: '#99CFFF',
                     maxColor: Highcharts.getOptions().colors[0],
                 },
                 tooltip: {
