@@ -112,6 +112,12 @@
                 <td>Axis Titles</td>
             </tr>
             <tr>
+                <td>
+                    <input id="showAxisTitles" type="checkbox" checked />
+                    <label for="showAxisTitles">Show axis titles</label>
+                </td>
+            </tr>
+            <tr>
                 <table>
                     <tr>
                         <td>Size</td>
@@ -226,6 +232,7 @@
                 subtitleFontStyle: 'normal',
                 subtitleAlignment: 'left',
                 subtitleColor: '#000000',
+                showAxisTitles: true,
                 axisTitleSize: '14px',
                 axisTitleColor: '#000000',
                 showDataLabels: true,
@@ -244,6 +251,7 @@
             this._shadowRoot.getElementById('subtitleFontStyle').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('subtitleAlignment').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('subtitleColor').addEventListener('change', this._submit.bind(this));
+            this._shadowRoot.getElementById('showAxisTitles').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('axisTitleSize').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('axisTitleColor').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('scaleFormat').addEventListener('change', this._submit.bind(this));
@@ -291,6 +299,7 @@
                         subtitleFontStyle: this.subtitleFontStyle,
                         subtitleAlignment: this.subtitleAlignment,
                         subtitleColor: this.subtitleColor,
+                        showAxisTitles: this.showAxisTitles,
                         axisTitleSize: this.axisTitleSize,
                         axisTitleColor: this.axisTitleColor,
                         scaleFormat: this.scaleFormat,
@@ -372,6 +381,13 @@
         }
         set subtitleColor(value) {
             this._shadowRoot.getElementById('subtitleColor').value = value;
+        }
+
+        get showAxisTitles() {
+            return this._shadowRoot.getElementById('showAxisTitles').checked;
+        }
+        set showAxisTitles(value) {
+            this._shadowRoot.getElementById('showAxisTitles').checked = value;
         }
 
         get axisTitleSize() {

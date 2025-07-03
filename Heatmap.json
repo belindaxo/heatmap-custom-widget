@@ -82,6 +82,11 @@
             "description": "The color of the subtitle text",
             "default": "#000000"
         },
+        "showAxisTitles": {
+            "type": "boolean",
+            "description": "Whether to show axis titles",
+            "default": true
+        },
         "axisTitleSize": {
             "type": "string",
             "description": "The font size of the axis titles",

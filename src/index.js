@@ -96,7 +96,7 @@ var parseMetadata = metadata => {
             return [
                 'chartTitle', 'titleSize', 'titleFontStyle', 'titleAlignment', 'titleColor',                            // Title properties
                 'chartSubtitle', 'subtitleSize', 'subtitleFontStyle', 'subtitleAlignment', 'subtitleColor',             // Subtitle properties
-                'axisTitleSize', 'axisTitleColor',                                                                      // Axis title properties
+                'showAxisTitles', 'axisTitleSize', 'axisTitleColor',                                                    // Axis title properties
                 'scaleFormat', 'decimalPlaces',                                                                         // Number formatting properties
                 'showDataLabels', 'allowOverlap',                                                                       // Data label properties
                 'topN'                                                                                                  // Ranking property 
@@ -224,6 +224,8 @@ var parseMetadata = metadata => {
 
             const autoTitle = `${measureLabel} per ${xLabel}, ${yLabel}`;
             const titleText = this._updateTitle(autoTitle, this.chartTitle);
+            const axisTitleX = this._toggleAxisTitles(this.showAxisTitles, dimensions[0]);
+            const axisTitleY = this._toggleAxisTitles(this.showAxisTitles, dimensions[1]);
 
             const series = [{
                 name: measures[0].label || 'Measure',
@@ -276,7 +278,7 @@ var parseMetadata = metadata => {
                     categories: xCategories,
                     opposite: false,
                     title: {
-                        text: dimensions[0].description || 'X Axis',
+                        text: axisTitleX,
                         margin: 20,
                         style: {
                             fontSize: this.axisTitleSize || '14px',
@@ -287,7 +289,7 @@ var parseMetadata = metadata => {
                 yAxis: {
                     categories: yCategories,
                     title: {
-                        text: dimensions[1].description || 'Y Axis',
+                        text: axisTitleY,
                         margin: 20,
                         style: {
                             fontSize: this.axisTitleSize || '14px',
@@ -384,6 +386,14 @@ var parseMetadata = metadata => {
                 return autoTitle;
             } else {
                 return chartTitle;
+            }
+        }
+
+        _toggleAxisTitles(showAxisTitles, dimension) {
+            if (showAxisTitles) {
+                return dimension.description || 'Axis';
+            } else {
+                return '';
             }
         }
 
