@@ -3,7 +3,8 @@
  */
 import * as Highcharts from 'highcharts';
 import 'highcharts/modules/heatmap';
-import 'highcharts-custom-events';
+import HighchartsCustomEvents from 'highcharts-custom-events';
+HighchartsCustomEvents(Highcharts);
 
 /**
  * Parses metadata into structured dimensions and measures.
