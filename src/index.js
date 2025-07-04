@@ -5,7 +5,7 @@ import * as Highcharts from 'highcharts';
 import 'highcharts/modules/heatmap';
 import HighchartsCustomEvents from 'highcharts-custom-events';
 HighchartsCustomEvents(Highcharts);
-import { handleXAxisLabelClick, handleYAxisLabelClick } from './interactions/eventHandlers';
+import { handleXAxisLabelClick, handleYAxisLabelClick, handlePointClick } from './interactions/eventHandlers';
 
 /**
  * Parses metadata into structured dimensions and measures.
@@ -176,8 +176,8 @@ var parseMetadata = metadata => {
                 const proportion = rawValue / colTotal;
 
                 return {
-                    x: xLabel,
-                    y: yLabel,
+                    x: xCategories.indexOf(xLabel),
+                    y: yCategories.indexOf(yLabel),
                     value: proportion,
                     rawValue: rawValue
                 };
@@ -237,6 +237,7 @@ var parseMetadata = metadata => {
 
             const onXLabelClick = (event) => handleXAxisLabelClick(event, dataBinding, dimensions, this);
             const onYLabelClick = (event) => handleYAxisLabelClick(event, dataBinding, dimensions, this);
+            const onPointClick = (event) => handlePointClick(event, dataBinding, dimensions, this);
 
             const series = [{
                 name: measures[0].label || 'Measure',
@@ -351,9 +352,8 @@ var parseMetadata = metadata => {
                         cursor: 'pointer',
                         point: {
                             events: {
-                                click: function () {
-                                    console.log('Point clicked:', this);
-                                }
+                                select: onPointClick,
+                                unselect: onPointClick
                             }
                         }
                     }

@@ -91,18 +91,34 @@ export function handlePointClick(event, dataBinding, dimensions, widget) {
         return;
     }
 
+    let selection = {};
+
     const xDim = dimensions[0];
     const xDimKey = xDim.key;
     const xDimId = xDim.id;
-    const xLabel = point.name || 'No Label';
-    console.log('Dimension key:', dimensionKey);
-    console.log('Dimension ID:', dimensionId);
-    console.log('Label:', label);
+    const xLabel = point.category;
+    console.log(`X Dimension Key: ${xDimKey}, X Dimension ID: ${xDimId}, X Label: ${xLabel}`);
+    const yDim = dimensions[1];
+    const yDimKey = yDim.key;
+    const yDimId = yDim.id;
+    const yLabel = point.series.yAxis.categories[point.y];
+    console.log(`Y Dimension Key: ${yDimKey}, Y Dimension ID: ${yDimId}, Y Label: ${yLabel}`);
 
-    const selectedItem = dataBinding.data.find(
-        (item) => item[dimensionKey].label === label
+    const row = dataBinding.data.find(r =>
+        (r[xDimKey]?.label.trim()) === xLabel &&
+        (r[yDimKey]?.label.trim()) === yLabel
     );
-    console.log('Selected item:', selectedItem);
+
+    if (!row) {
+        console.log('Row not found for the clicked point');
+        return;
+    }
+    console.log('Row found:', row);
+
+    selection = {
+        [xDimId]: row[xDimKey].id,
+        [yDimId]: row[yDimKey].id
+    }
 
     const linkedAnalysis = widget.dataBindings.getDataBinding('dataBinding').getLinkedAnalysis();
 
@@ -112,16 +128,15 @@ export function handlePointClick(event, dataBinding, dimensions, widget) {
         widget._selectedPoint = null;
     }
 
+    if (widget._selectedLabel) {
+        linkedAnalysis.removeFilters();
+        widget._selectedPoint.select(false, false);
+        widget._selectedLabel = null;
+    }
+
     if (event.type === 'select') {
-        if (selectedItem) {
-            const selection = {};
-            selection[dimensionId] = selectedItem[dimensionKey].id;
-            console.log('Selection:', selection);
-            console.log('selection[dimensionId]:', selection[dimensionId]);
-            console.log('selectedItem[dimensionKey].id', selectedItem[dimensionKey].id);
-            linkedAnalysis.setFilters(selection);
-            widget._selectedPoint = point;
-        }
+        linkedAnalysis.setFilters(selection);
+        widget._selectedPoint = point;
     } else if (event.type === 'unselect') {
         linkedAnalysis.removeFilters();
         widget._selectedPoint = null;
