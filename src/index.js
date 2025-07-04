@@ -293,6 +293,7 @@ var parseMetadata = metadata => {
                             click: function () {
                                 // Handle click event on x-axis
                                 console.log('X Axis clicked:');
+                                console.log(this);
                             }
                         }
                     }
@@ -313,6 +314,7 @@ var parseMetadata = metadata => {
                             click: function () {
                                 // Handle click event on x-axis
                                 console.log('Y Axis clicked:');
+                                console.log(this);
                             }
                         }
                     }
