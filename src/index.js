@@ -64,6 +64,7 @@ var parseMetadata = metadata => {
             `;
 
             this._selectedLabel = null; 
+            this._selectedPoint = null;
         }
 
         /**
@@ -92,6 +93,7 @@ var parseMetadata = metadata => {
                 this._chart = null;
             }
             this._selectedLabel = null; 
+            this._selectedPoint = null;
         }
 
         /**
@@ -197,6 +199,7 @@ var parseMetadata = metadata => {
                     this._chart.destroy();
                     this._chart = null;
                     this._selectedLabel = null;
+                    this._selectedPoint = null;
                 }
                 return;
             }
@@ -212,6 +215,7 @@ var parseMetadata = metadata => {
                     this._chart.destroy();
                     this._chart = null;
                     this._selectedLabel = null;
+                    this._selectedPoint = null;
                 }
                 return;
             }
