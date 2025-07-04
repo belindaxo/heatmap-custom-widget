@@ -5,6 +5,7 @@ import * as Highcharts from 'highcharts';
 import 'highcharts/modules/heatmap';
 import HighchartsCustomEvents from 'highcharts-custom-events';
 HighchartsCustomEvents(Highcharts);
+import { handleXAxisLabelClick, handleYAxisLabelClick } from './interactions/eventHandlers';
 
 /**
  * Parses metadata into structured dimensions and measures.
@@ -61,6 +62,8 @@ var parseMetadata = metadata => {
             this.shadowRoot.innerHTML = `
                 <div id="container"></div>    
             `;
+
+            this._selectedLabel = null; 
         }
 
         /**
@@ -88,6 +91,7 @@ var parseMetadata = metadata => {
                 this._chart.destroy();
                 this._chart = null;
             }
+            this._selectedLabel = null; 
         }
 
         /**
@@ -189,6 +193,11 @@ var parseMetadata = metadata => {
         _renderChart() {
             const dataBinding = this.dataBinding;
             if (!dataBinding || dataBinding.state !== 'success') {
+                if (this._chart) {
+                    this._chart.destroy();
+                    this._chart = null;
+                    this._selectedLabel = null;
+                }
                 return;
             }
 
@@ -202,6 +211,7 @@ var parseMetadata = metadata => {
                 if (this._chart) {
                     this._chart.destroy();
                     this._chart = null;
+                    this._selectedLabel = null;
                 }
                 return;
             }
@@ -224,6 +234,9 @@ var parseMetadata = metadata => {
             const titleText = this._updateTitle(autoTitle, this.chartTitle);
             const axisTitleX = this._toggleAxisTitles(this.showAxisTitles, dimensions[0]);
             const axisTitleY = this._toggleAxisTitles(this.showAxisTitles, dimensions[1]);
+
+            const onXLabelClick = (event) => handleXAxisLabelClick(event, dataBinding, dimensions, this);
+            const onYLabelClick = (event) => handleYAxisLabelClick(event, dataBinding, dimensions, this);
 
             const series = [{
                 name: measures[0].label || 'Measure',
@@ -285,11 +298,7 @@ var parseMetadata = metadata => {
                     },
                     labels: {
                         events: {
-                            click: function () {
-                                // Handle click event on x-axis
-                                console.log('X Axis clicked:');
-                                console.log(this);
-                            }
+                            click: onXLabelClick
                         },
                         style: {
                             cursor: 'pointer'
@@ -309,11 +318,7 @@ var parseMetadata = metadata => {
                     reversed: false,
                     labels: {
                         events: {
-                            click: function () {
-                                // Handle click event on x-axis
-                                console.log('Y Axis clicked:');
-                                console.log(this);
-                            }
+                            click: onYLabelClick
                         },
                         style: {
                             cursor: 'pointer'
@@ -458,6 +463,45 @@ var parseMetadata = metadata => {
                 `;
             }
         }
+
+        // _handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
+        //     const target = event.target;
+        //     console.log('X Axis label clicked:', target);
+        //     const dimension = dimensions[0];
+        //     const dimensionKey = dimension.key;
+        //     const dimensionId = dimension.id;
+        //     const label = target.value;
+        //     console.log(`Dimension Key: ${dimensionKey}, Dimension ID: ${dimensionId}, Label: ${label}`);
+
+        //     const selectedItem = dataBinding.data.find((item) => item[dimensionKey].label === label);
+        //     console.log('Selected Item:', selectedItem);
+
+        //     const linkedAnalysis = widget.dataBindings.getDataBinding('dataBinding').getLinkedAnalysis();
+
+        //     if (widget._selectedLabel === target) {
+        //         // If the same label is clicked again, remove filters
+        //         linkedAnalysis.removeFilters();
+        //         widget._selectedLabel = null;
+        //         console.log('Filters removed for label:', label);
+        //         return;
+        //     }
+
+        //     if (widget._selectedLabel && widget._selectedLabel !== target) {
+        //         // If a different label was previously selected, remove its filters
+        //         linkedAnalysis.removeFilters();
+        //         widget._selectedLabel = null;
+        //     }
+
+        //     if (selectedItem) {
+        //         const selection = {};
+        //         selection[dimensionId] = selectedItem[dimensionKey].id;
+        //         console.log('Selection:', selection);
+        //         console.log('selection[dimensionId]:', selection[dimensionId]);
+        //         console.log('selectedItem[dimensionKey].id:', selectedItem[dimensionKey].id);
+        //         linkedAnalysis.setFilters(selection);
+        //         widget._selectedLabel = target;
+        //     }
+        // }
     }
     customElements.define('com-sap-sample-heatmap', Heatmap);
 })();
