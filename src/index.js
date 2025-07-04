@@ -163,11 +163,6 @@ var parseMetadata = metadata => {
                 xCategories = sorted;
             }
 
-            console.log('Column Totals:');
-            columnTotals.forEach((total, label) => {
-                console.log(`${label}: ${total}`);
-            })
-
             // Create heatmap data array
             const seriesData = data.filter(row => xCategories.includes(row[xDimension.key].label)).map(row => {
                 const xLabel = row[xDimension.key].label || 'No Label';
@@ -295,6 +290,9 @@ var parseMetadata = metadata => {
                                 console.log('X Axis clicked:');
                                 console.log(this);
                             }
+                        },
+                        style: {
+                            cursor: 'pointer'
                         }
                     }
                 },
@@ -316,6 +314,9 @@ var parseMetadata = metadata => {
                                 console.log('Y Axis clicked:');
                                 console.log(this);
                             }
+                        },
+                        style: {
+                            cursor: 'pointer'
                         }
                     }
                 },
