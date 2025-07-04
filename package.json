@@ -17,6 +17,7 @@
     "webpack-cli": "6.0.1"
   },
   "dependencies": {
-    "highcharts": "12.3.0"
+    "highcharts": "12.3.0",
+    "highcharts-custom-events": "^3.0.10"
   }
 }

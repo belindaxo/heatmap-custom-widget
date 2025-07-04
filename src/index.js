@@ -3,6 +3,7 @@
  */
 import * as Highcharts from 'highcharts';
 import 'highcharts/modules/heatmap';
+import 'highcharts-custom-events';
 
 /**
  * Parses metadata into structured dimensions and measures.
@@ -286,10 +287,12 @@ var parseMetadata = metadata => {
                             color: this.axisTitleColor || '#000000'
                         }
                     },
-                    events: {
-                        click: function () {
-                            // Handle click event on x-axis
-                            console.log('X Axis clicked:');
+                    labels: {
+                        events: {
+                            click: function () {
+                                // Handle click event on x-axis
+                                console.log('X Axis clicked:');
+                            }
                         }
                     }
                 },
@@ -304,10 +307,12 @@ var parseMetadata = metadata => {
                         }
                     },
                     reversed: false,
-                    events: {
-                        click: function () {
-                            // Handle click event on x-axis
-                            console.log('Y Axis clicked:');
+                    labels: {
+                        events: {
+                            click: function () {
+                                // Handle click event on x-axis
+                                console.log('Y Axis clicked:');
+                            }
                         }
                     }
                 },
