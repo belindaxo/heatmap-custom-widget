@@ -176,8 +176,8 @@ var parseMetadata = metadata => {
                 const proportion = rawValue / colTotal;
 
                 return {
-                    x: xCategories.indexOf(xLabel),
-                    y: yCategories.indexOf(yLabel),
+                    x: xLabel,
+                    y: yLabel,
                     value: proportion,
                     rawValue: rawValue
                 };
