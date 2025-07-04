@@ -285,6 +285,12 @@ var parseMetadata = metadata => {
                             fontSize: this.axisTitleSize || '14px',
                             color: this.axisTitleColor || '#000000'
                         }
+                    },
+                    events: {
+                        click: function () {
+                            // Handle click event on x-axis
+                            console.log('X Axis clicked:');
+                        }
                     }
                 },
                 yAxis: {
@@ -297,7 +303,13 @@ var parseMetadata = metadata => {
                             color: this.axisTitleColor || '#000000'
                         }
                     },
-                    reversed: false
+                    reversed: false,
+                    events: {
+                        click: function () {
+                            // Handle click event on x-axis
+                            console.log('Y Axis clicked:');
+                        }
+                    }
                 },
                 colorAxis: {
                     min: 0,
