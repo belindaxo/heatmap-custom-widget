@@ -134,7 +134,54 @@
         }
     },
     "methods": {
-
+        "getHeatmapMembers": {
+            "description": "Returns the members of the specified feed of the chart.",
+            "returnType": "string[]"
+        },
+        "getHeatmapDimensions": {
+            "description": "Returns the dimensions of the chart.",
+            "returnType": "string[]"
+        },
+        "removeHeatmapMember": {
+            "description": "Removes a member from the chart.",
+            "parameters": [
+                {
+                    "name": "memberId",
+                    "type": "string",
+                    "description": "The ID of the member to remove."
+                }
+            ]
+        },
+        "removeHeatmapDimension": {
+            "description": "Removes a dimension from the chart.",
+            "parameters": [
+                {
+                    "name": "dimensionId",
+                    "type": "string",
+                    "description": "The ID of the dimension to remove."
+                }
+            ]
+        },
+        "addHeatmapMember": {
+            "description": "Adds the specified member to the chart.",
+            "parameters": [
+                {
+                    "name": "memberId",
+                    "type": "string",
+                    "description": "The ID of the member to add."
+                }
+            ]
+        },
+        "addHeatmapDimension": {
+            "description": "Adds the specified dimension to the chart.",
+            "parameters": [
+                {
+                    "name": "dimensionId",
+                    "type": "string",
+                    "description": "The ID of the dimension to add."
+                }
+            ]
+        }
     },
     "events": {
 
