@@ -7,6 +7,7 @@ import HighchartsCustomEvents from 'highcharts-custom-events';
 HighchartsCustomEvents(Highcharts);
 import { handleXAxisLabelClick, handleYAxisLabelClick } from './interactions/eventHandlers';
 import { scaleValue } from './formatting/scaleFormatter';
+import { formatTooltip } from './formatting/tooltipFormatter';
 
 /**
  * Parses metadata into structured dimensions and measures.
@@ -336,7 +337,7 @@ var parseMetadata = metadata => {
                     useHTML: true,
                     followPointer: true,
                     hideDelay: 0,
-                    formatter: this._formatTooltip(scaleFormat, dimensions),
+                    formatter: formatTooltip(scaleFormat, dimensions),
                 },
                 legend: {
                     align: 'right',
@@ -350,37 +351,6 @@ var parseMetadata = metadata => {
             }
             this._chart = Highcharts.chart(this.shadowRoot.getElementById('container'), chartOptions);
         }
-
-        // /**
-        //  * Scales a value based on the selected scale format (k, m, b).
-        //  * @param {number} value 
-        //  * @returns {Object} An object containing the scaled value and its suffix.
-        //  */
-        // _scaleFormat(value) {
-        //     let scaledValue = value;
-        //     let valueSuffix = '';
-
-        //     switch (this.scaleFormat) {
-        //         case 'k':
-        //             scaledValue = value / 1000;
-        //             valueSuffix = 'k';
-        //             break;
-        //         case 'm':
-        //             scaledValue = value / 1000000;
-        //             valueSuffix = 'm';
-        //             break;
-        //         case 'b':
-        //             scaledValue = value / 1000000000;
-        //             valueSuffix = 'b';
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        //     return {
-        //         scaledValue: scaledValue.toFixed(this.decimalPlaces),
-        //         valueSuffix
-        //     };
-        // }
 
         /**
          * Determines subtitle text based on scale format or user input.
