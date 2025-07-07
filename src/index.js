@@ -133,9 +133,9 @@ import { processSeriesData } from './data/dataProcessor';
             const xLabel = dimensions[0].description || 'X Axis';
             const yLabel = dimensions[1].description || 'Y Axis';
             const measureLabel = measures[0].label || 'Measure';
-
             const autoTitle = `${measureLabel} per ${xLabel}, ${yLabel}`;
             const titleText = updateTitle(autoTitle, this.chartTitle);
+            
             const axisTitleX = toggleAxisTitles(this.showAxisTitles, dimensions[0]);
             const axisTitleY = toggleAxisTitles(this.showAxisTitles, dimensions[1]);
 
