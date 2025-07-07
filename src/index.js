@@ -241,7 +241,6 @@ var parseMetadata = metadata => {
 
             const onXLabelClick = (event) => handleXAxisLabelClick(event, dataBinding, dimensions, this);
             const onYLabelClick = (event) => handleYAxisLabelClick(event, dataBinding, dimensions, this);
-            const onPointClick = (event) => handlePointClick(event, dataBinding, dimensions, this);
 
             const series = [{
                 name: measures[0].label || 'Measure',
@@ -350,18 +349,18 @@ var parseMetadata = metadata => {
                     y: 25,
                     symbolHeight: 280
                 },
-                plotOptions: {
-                    series: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        point: {
-                            events: {
-                                select: onPointClick,
-                                unselect: onPointClick
-                            }
-                        }
-                    }
-                },
+                // plotOptions: {
+                //     series: {
+                //         allowPointSelect: true,
+                //         cursor: 'pointer',
+                //         point: {
+                //             events: {
+                //                 select: onPointClick,
+                //                 unselect: onPointClick
+                //             }
+                //         }
+                //     }
+                // },
                 series
             }
             this._chart = Highcharts.chart(this.shadowRoot.getElementById('container'), chartOptions);
