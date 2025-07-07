@@ -38,8 +38,6 @@ import { processSeriesData } from './data/dataProcessor';
 
             this._selectedLabel = null;
             this._selectedPoint = null;
-
-            this.shadowRoot.appendChild(style);
         }
 
         /**
