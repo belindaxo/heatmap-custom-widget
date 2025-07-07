@@ -96,73 +96,6 @@ import { processSeriesData } from './data/dataProcessor';
             }
         }
 
-        // _processSeriesData(data, dimensions, measures) {
-        //     if (dimensions.length < 2 || measures.length < 1) {
-        //         return {
-        //             xCategories: [],
-        //             yCategories: [],
-        //             data: []
-        //         };
-        //     }
-
-        //     const xDimension = dimensions[0];
-        //     const yDimension = dimensions[1];
-        //     const measureKey = measures[0].key;
-
-        //     const xSet = new Set();
-        //     const ySet = new Set();
-
-        //     // Collect unique labels for each dimension
-        //     data.forEach(row => {
-        //         const xLabel = row[xDimension.key].label || 'No Label';
-        //         const yLabel = row[yDimension.key].label || 'No Label';
-        //         xSet.add(xLabel);
-        //         ySet.add(yLabel);
-        //     });
-
-        //     let xCategories = Array.from(xSet);
-        //     const yCategories = Array.from(ySet);
-
-        //     const columnTotals = new Map();
-        //     xCategories.forEach(x => columnTotals.set(x, 0));
-
-        //     data.forEach(row => {
-        //         const xLabel = row[xDimension.key].label || "No Label";
-        //         const value = row[measureKey].raw || 0;
-        //         columnTotals.set(xLabel, columnTotals.get(xLabel) + Math.abs(value));
-        //     });
-
-        //     // Apply Top N filter if specified
-        //     const topN = parseInt(this.topN);
-        //     if (!isNaN(topN) && topN > 0) {
-        //         const sorted = Array.from(columnTotals.entries()).sort((a, b) => b[1] - a[1]).slice(0, topN).map(entry => entry[0]);
-
-        //         xCategories = sorted;
-        //     }
-
-        //     // Create heatmap data array
-        //     const seriesData = data.filter(row => xCategories.includes(row[xDimension.key].label)).map(row => {
-        //         const xLabel = row[xDimension.key].label || 'No Label';
-        //         const yLabel = row[yDimension.key].label || 'No Label';
-        //         const rawValue = row[measureKey].raw || 0;
-        //         const colTotal = columnTotals.get(xLabel) || 1;
-        //         const proportion = rawValue / colTotal;
-
-        //         return {
-        //             x: xCategories.indexOf(xLabel),
-        //             y: yCategories.indexOf(yLabel),
-        //             value: proportion,
-        //             rawValue: rawValue
-        //         };
-        //     });
-
-        //     return {
-        //         xCategories,
-        //         yCategories,
-        //         data: seriesData
-        //     };
-        // }
-
         _renderChart() {
             const dataBinding = this.dataBinding;
             if (!dataBinding || dataBinding.state !== 'success') {
@@ -189,9 +122,7 @@ import { processSeriesData } from './data/dataProcessor';
                 return;
             }
 
-            const xCategories = processSeriesData(data, dimensions, measures, this.topN).xCategories;
-            const yCategories = processSeriesData(data, dimensions, measures, this.topN).yCategories;
-            const seriesData = processSeriesData(data, dimensions, measures, this.topN).data;
+            const { xCategories, yCategories, data: seriesData } = processSeriesData(data, dimensions, measures, this.topN);
             console.log('xCategories:', xCategories);
             console.log('yCategories:', yCategories);
             console.log('seriesData:', seriesData);
