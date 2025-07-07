@@ -20,10 +20,7 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
     if (widget._selectedLabel === target) {
         // If the same label is clicked again, remove filters
         linkedAnalysis.removeFilters();
-        if (widget._selectedLabel) {
-            widget._selectedLabel.removeClass?.('selected-label');
-            widget._selectedLabel = null;
-        }
+        widget._selectedLabel = null;
 
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
@@ -37,10 +34,7 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
     if (widget._selectedLabel && widget._selectedLabel !== target) {
         // If a different label was previously selected, remove its filters
         linkedAnalysis.removeFilters();
-        if (widget._selectedLabel) {
-            widget._selectedLabel.removeClass?.('selected-label');
-            widget._selectedLabel = null;
-        }
+        widget._selectedLabel = null;
 
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
@@ -56,8 +50,6 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
         console.log('selectedItem[dimensionKey].id:', selectedItem[dimensionKey].id);
         linkedAnalysis.setFilters(selection);
         widget._selectedLabel = target;
-        target.addClass?.('selected-label');
-
     }
 }
 
@@ -83,10 +75,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     if (widget._selectedLabel === target) {
         // If the same label is clicked again, remove filters
         linkedAnalysis.removeFilters();
-        if (widget._selectedLabel) {
-            widget._selectedLabel.removeClass?.('selected-label');
-            widget._selectedLabel = null;
-        }
+        widget._selectedLabel = null;
 
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
@@ -100,10 +89,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     if (widget._selectedLabel && widget._selectedLabel !== target) {
         // If a different label was previously selected, remove its filters
         linkedAnalysis.removeFilters();
-        if (widget._selectedLabel) {
-            widget._selectedLabel.removeClass?.('selected-label');
-            widget._selectedLabel = null;
-        }
+        widget._selectedLabel = null;
 
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
@@ -119,8 +105,6 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
         console.log('selectedItem[dimensionKey].id:', selectedItem[dimensionKey].id);
         linkedAnalysis.setFilters(selection);
         widget._selectedLabel = target;
-        target.addClass?.('selected-label');
-
     }
 }
 
@@ -149,11 +133,7 @@ export function handlePointClick(event, dataBinding, dimensions, widget) {
     if (widget._selectedPoint && widget._selectedPoint !== point) {
         widget._selectedPoint.select(false, false);
     }
-    if (widget._selectedLabel) {
-        widget._selectedLabel.removeClass?.('selected-label');
-        widget._selectedLabel = null;
-    }
-
+    widget._selectedLabel = null;
     widget._selectedPoint = null;
 
     if (event.type === 'select') {

@@ -39,12 +39,6 @@ import { processSeriesData } from './data/dataProcessor';
             this._selectedLabel = null;
             this._selectedPoint = null;
 
-            const style = document.createElement('style');
-            style.textContent = `
-                .selected-label {
-                    font-weight: bold;
-                }
-            `;
             this.shadowRoot.appendChild(style);
         }
 
