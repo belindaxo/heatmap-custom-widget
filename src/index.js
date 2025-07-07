@@ -5,7 +5,7 @@ import * as Highcharts from 'highcharts';
 import 'highcharts/modules/heatmap';
 import HighchartsCustomEvents from 'highcharts-custom-events';
 HighchartsCustomEvents(Highcharts);
-import { handleXAxisLabelClick, handleYAxisLabelClick } from './interactions/eventHandlers';
+import { handleXAxisLabelClick, handleYAxisLabelClick, handlePointClick } from './interactions/eventHandlers';
 import { scaleValue } from './formatting/scaleFormatter';
 import { formatTooltip } from './formatting/tooltipFormatter';
 import { formatDataLabels } from './formatting/labelFormatter';
@@ -37,6 +37,7 @@ import { processSeriesData } from './data/dataProcessor';
             `;
 
             this._selectedLabel = null; 
+            this._selectedPoint = null;
         }
 
         /**
@@ -65,6 +66,7 @@ import { processSeriesData } from './data/dataProcessor';
                 this._chart = null;
             }
             this._selectedLabel = null; 
+            this._selectedPoint = null;
         }
 
         /**
@@ -103,6 +105,7 @@ import { processSeriesData } from './data/dataProcessor';
                     this._chart.destroy();
                     this._chart = null;
                     this._selectedLabel = null;
+                    this._selectedPoint = null;
                 }
                 return;
             }
@@ -118,6 +121,7 @@ import { processSeriesData } from './data/dataProcessor';
                     this._chart.destroy();
                     this._chart = null;
                     this._selectedLabel = null;
+                    this._selectedPoint = null;
                 }
                 return;
             }
@@ -135,12 +139,13 @@ import { processSeriesData } from './data/dataProcessor';
             const measureLabel = measures[0].label || 'Measure';
             const autoTitle = `${measureLabel} per ${xLabel}, ${yLabel}`;
             const titleText = updateTitle(autoTitle, this.chartTitle);
-            
+
             const axisTitleX = toggleAxisTitles(this.showAxisTitles, dimensions[0]);
             const axisTitleY = toggleAxisTitles(this.showAxisTitles, dimensions[1]);
 
             const onXLabelClick = (event) => handleXAxisLabelClick(event, dataBinding, dimensions, this);
             const onYLabelClick = (event) => handleYAxisLabelClick(event, dataBinding, dimensions, this);
+            const onPointClick = (event) => handlePointClick(event, dataBinding, dimensions, this);
 
             const series = [{
                 name: measures[0].label || 'Measure',
@@ -243,6 +248,18 @@ import { processSeriesData } from './data/dataProcessor';
                     verticalAlign: 'middle',
                     y: 25,
                     symbolHeight: 280
+                },
+                plotOptions: {
+                    series: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                select: onPointClick,
+                                unselect: onPointClick
+                            }
+                        }
+                    }
                 },
                 series
             }
