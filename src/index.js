@@ -265,6 +265,67 @@ import { processSeriesData } from './data/dataProcessor';
             }
             this._chart = Highcharts.chart(this.shadowRoot.getElementById('container'), chartOptions);
         }
+
+        // SAC Scripting Methods
+        /**
+         * Returns the members of the specified feed of the chart.
+         * @returns {Array} An array of members (measures) from the data binding.
+         */
+        getHeatmapMembers() {
+            const dataBinding = this.dataBindings.getDataBinding('dataBinding');
+            const members = dataBinding.getMembers('measures');
+            return members;
+        }
+
+        /**
+         * Returns the dimensions of the chart.
+         * @returns {Array} An array of dimensions from the data binding.
+         */
+        getHeatmapDimensions() {
+            const dataBinding = this.dataBindings.getDataBinding('dataBinding');
+            const dimensions = dataBinding.getDimensions('dimensions');
+            return dimensions;
+        }
+
+        /**
+         * Removes the specified member from the chart.
+         * @param {string} memberId - The ID of the member to remove from the chart.
+         */
+        removeHeatmapMember(memberId) {
+            const dataBinding = this.dataBindings.getDataBinding('dataBinding');
+            dataBinding.removeMember(memberId);
+            console.log('removeHeatmapMember - memberId:', memberId);
+        }
+
+        /**
+         * Removes the specified dimension from the chart.
+         * @param {string} dimensionId - The ID of the dimension to remove from the chart.
+         */
+        removeHeatmapDimension(dimensionId) {
+            const dataBinding = this.dataBindings.getDataBinding('dataBinding');
+            dataBinding.removeDimension(dimensionId);
+            console.log('removeHeatmapDimension - dimensionId:', dimensionId);
+        }
+
+        /**
+         * Adds the specified member to the chart.
+         * @param {string} memberId - The ID of the member to add to the chart.
+         */
+        addHeatmapMember(memberId) {
+            const dataBinding = this.dataBindings.getDataBinding('dataBinding');
+            dataBinding.addMemberToFeed('measures', memberId);
+            console.log('addHeatmapMember - memberId:', memberId);
+        }
+
+        /**
+         * Adds the specified dimension to the chart.
+         * @param {string} dimensionId - The ID of the dimension to add to the chart.
+         */
+        addHeatmapDimension(dimensionId) {
+            const dataBinding = this.dataBindings.getDataBinding('dataBinding');
+            dataBinding.addDimensionToFeed('dimensions', dimensionId);
+            console.log('addHeatmapDimension - dimensionId:', dimensionId);
+        }
     }
     customElements.define('com-sap-sample-heatmap', Heatmap);
 })();
