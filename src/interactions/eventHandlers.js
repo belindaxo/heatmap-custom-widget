@@ -1,3 +1,10 @@
+/**
+ * Event handler for x-axis label click events.
+ * @param {Object} event - The event object containing the click event.
+ * @param {Object} dataBinding - The data binding object containing the data.
+ * @param {Array} dimensions - Array of dimension objects.
+ * @param {Object} widget - Reference to the widget.
+ */
 export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
     const target = event.target;
     console.log('X Axis label clicked:', target);
@@ -53,6 +60,13 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
     }
 }
 
+/**
+ * Event handler for y-axis label click events.
+ * @param {Object} event - The event object containing the click event.
+ * @param {Object} dataBinding - The data binding object containing the data.
+ * @param {Array} dimensions - Array of dimension objects.
+ * @param {Object} widget - Reference to the widget.
+ */
 export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     const target = event.target;
     console.log('Y Axis label clicked:', target);
@@ -108,6 +122,13 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     }
 }
 
+/**
+ * Event handler for point click events.
+ * @param {Object} event - The event object containing the click event.
+ * @param {Object} dataBinding - The data binding object containing the data.
+ * @param {Array} dimensions - Array of dimension objects.
+ * @param {Object} widget - Reference to the widget ('this', in context).
+ */
 export function handlePointClick(event, dataBinding, dimensions, widget) {
     const point = event.target;
     console.log('Point clicked:', point);
