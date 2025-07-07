@@ -8,6 +8,7 @@ HighchartsCustomEvents(Highcharts);
 import { handleXAxisLabelClick, handleYAxisLabelClick } from './interactions/eventHandlers';
 import { scaleValue } from './formatting/scaleFormatter';
 import { formatTooltip } from './formatting/tooltipFormatter';
+import { formatDataLabels } from './formatting/labelFormatter';
 
 /**
  * Parses metadata into structured dimensions and measures.
@@ -247,7 +248,7 @@ var parseMetadata = metadata => {
                 dataLabels: {
                     enabled: this.showDataLabels,
                     allowOverlap: this.allowOverlap || false,
-                    formatter: this._formatDataLabels(scaleFormat)
+                    formatter: formatDataLabels(scaleFormat)
                 }
             }];
             console.log('series:', series);
@@ -395,45 +396,45 @@ var parseMetadata = metadata => {
             }
         }
 
-        _formatDataLabels(scaleFormat) {
-            return function () {
-                const rawValue = this.rawValue;
-                const { scaledValue, valueSuffix } = scaleFormat(rawValue);
-                const value = Highcharts.numberFormat(scaledValue, -1, '.', ',');
-                return `${value}`;
-            }
-        }
+        // _formatDataLabels(scaleFormat) {
+        //     return function () {
+        //         const rawValue = this.rawValue;
+        //         const { scaledValue, valueSuffix } = scaleFormat(rawValue);
+        //         const value = Highcharts.numberFormat(scaledValue, -1, '.', ',');
+        //         return `${value}`;
+        //     }
+        // }
 
-        _formatTooltip(scaleFormat, dimensions) {
-            return function () {
-                const seriesName = this.series.name || 'Series';
-                const rawValue = this.rawValue;
-                const { scaledValue, valueSuffix } = scaleFormat(rawValue);
-                const value = Highcharts.numberFormat(scaledValue, -1, '.', ',');
-                const valueWithSuffix = `${value} ${valueSuffix}`;
-                const xLabel = this.category;
-                const yLabel = this.series.yAxis.categories[this.y];
-                const xDim = dimensions[0].description || 'X Axis';
-                const yDim = dimensions[1].description || 'Y Axis';
-                return `
-                    <div style="text-align: left; font-family: '72', sans-serif; font-size: 14px;">
-                        <div style="font-size: 14px; font-weight: normal; color: #666666;">${seriesName}</div>
-                        <div style="font-size: 18px; font-weight: normal; color: #000000;">${valueWithSuffix}</div>
-                        <hr style="border: none; border-top: 1px solid #eee; margin: 5px 0;">
-                        <table style="width: 100%; font-size: 14px; color: #000000;">
-                            <tr>
-                                <td style="text-align: left; padding-right: 10px;">${xDim}</td>
-                                <td style="text-align: right; padding-left: 10px;">${xLabel}</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: left; padding-right: 10px;">${yDim}</td>
-                                <td style="text-align: right; padding-left: 10px;">${yLabel}</td>
-                            </tr>
-                        </table>
-                    </div>
-                `;
-            }
-        }
+        // _formatTooltip(scaleFormat, dimensions) {
+        //     return function () {
+        //         const seriesName = this.series.name || 'Series';
+        //         const rawValue = this.rawValue;
+        //         const { scaledValue, valueSuffix } = scaleFormat(rawValue);
+        //         const value = Highcharts.numberFormat(scaledValue, -1, '.', ',');
+        //         const valueWithSuffix = `${value} ${valueSuffix}`;
+        //         const xLabel = this.category;
+        //         const yLabel = this.series.yAxis.categories[this.y];
+        //         const xDim = dimensions[0].description || 'X Axis';
+        //         const yDim = dimensions[1].description || 'Y Axis';
+        //         return `
+        //             <div style="text-align: left; font-family: '72', sans-serif; font-size: 14px;">
+        //                 <div style="font-size: 14px; font-weight: normal; color: #666666;">${seriesName}</div>
+        //                 <div style="font-size: 18px; font-weight: normal; color: #000000;">${valueWithSuffix}</div>
+        //                 <hr style="border: none; border-top: 1px solid #eee; margin: 5px 0;">
+        //                 <table style="width: 100%; font-size: 14px; color: #000000;">
+        //                     <tr>
+        //                         <td style="text-align: left; padding-right: 10px;">${xDim}</td>
+        //                         <td style="text-align: right; padding-left: 10px;">${xLabel}</td>
+        //                     </tr>
+        //                     <tr>
+        //                         <td style="text-align: left; padding-right: 10px;">${yDim}</td>
+        //                         <td style="text-align: right; padding-left: 10px;">${yLabel}</td>
+        //                     </tr>
+        //                 </table>
+        //             </div>
+        //         `;
+        //     }
+        // }
     }
     customElements.define('com-sap-sample-heatmap', Heatmap);
 })();
