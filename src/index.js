@@ -28,7 +28,7 @@ import { processSeriesData } from './data/dataProcessor';
             super();
             this.attachShadow({ mode: 'open' });
 
-           // Apply the stylesheet to the shadow DOM
+            // Apply the stylesheet to the shadow DOM
             this.shadowRoot.adoptedStyleSheets = [createChartStylesheet()];
 
             // Add the container for the chart
@@ -36,8 +36,16 @@ import { processSeriesData } from './data/dataProcessor';
                 <div id="container"></div>    
             `;
 
-            this._selectedLabel = null; 
+            this._selectedLabel = null;
             this._selectedPoint = null;
+
+            const style = document.createElement('style');
+            style.textContent = `
+                .selected-label {
+                    font-weight: bold;
+                }
+            `;
+            this.shadowRoot.appendChild(style);
         }
 
         /**
@@ -65,7 +73,7 @@ import { processSeriesData } from './data/dataProcessor';
                 this._chart.destroy();
                 this._chart = null;
             }
-            this._selectedLabel = null; 
+            this._selectedLabel = null;
             this._selectedPoint = null;
         }
 
