@@ -13,27 +13,7 @@ import { toggleAxisTitles, updateSubtitle, updateTitle } from './config/chartUti
 import { createChartStylesheet } from './config/styles';
 import { applyHighchartsDefaults } from './config/highchartsSetup';
 import { parseMetadata } from './data/metadataParser';
-
-// /**
-//  * Parses metadata into structured dimensions and measures.
-//  * @param {Object} metadata - The metadata object from SAC data binding.
-//  * @returns {Object} An object containing parsed dimensions, measures, and their maps.
-//  */
-// var parseMetadata = metadata => {
-//     const { dimensions: dimensionsMap, mainStructureMembers: measuresMap } = metadata;
-//     const dimensions = [];
-//     for (const key in dimensionsMap) {
-//         const dimension = dimensionsMap[key];
-//         dimensions.push({ key, ...dimension });
-//     }
-
-//     const measures = [];
-//     for (const key in measuresMap) {
-//         const measure = measuresMap[key];
-//         measures.push({ key, ...measure });
-//     }
-//     return { dimensions, measures, dimensionsMap, measuresMap };
-// }
+import { processSeriesData } from './data/dataProcessor';
 
 (function () {
     /**
@@ -116,72 +96,72 @@ import { parseMetadata } from './data/metadataParser';
             }
         }
 
-        _processSeriesData(data, dimensions, measures) {
-            if (dimensions.length < 2 || measures.length < 1) {
-                return {
-                    xCategories: [],
-                    yCategories: [],
-                    data: []
-                };
-            }
+        // _processSeriesData(data, dimensions, measures) {
+        //     if (dimensions.length < 2 || measures.length < 1) {
+        //         return {
+        //             xCategories: [],
+        //             yCategories: [],
+        //             data: []
+        //         };
+        //     }
 
-            const xDimension = dimensions[0];
-            const yDimension = dimensions[1];
-            const measureKey = measures[0].key;
+        //     const xDimension = dimensions[0];
+        //     const yDimension = dimensions[1];
+        //     const measureKey = measures[0].key;
 
-            const xSet = new Set();
-            const ySet = new Set();
+        //     const xSet = new Set();
+        //     const ySet = new Set();
 
-            // Collect unique labels for each dimension
-            data.forEach(row => {
-                const xLabel = row[xDimension.key].label || 'No Label';
-                const yLabel = row[yDimension.key].label || 'No Label';
-                xSet.add(xLabel);
-                ySet.add(yLabel);
-            });
+        //     // Collect unique labels for each dimension
+        //     data.forEach(row => {
+        //         const xLabel = row[xDimension.key].label || 'No Label';
+        //         const yLabel = row[yDimension.key].label || 'No Label';
+        //         xSet.add(xLabel);
+        //         ySet.add(yLabel);
+        //     });
 
-            let xCategories = Array.from(xSet);
-            const yCategories = Array.from(ySet);
+        //     let xCategories = Array.from(xSet);
+        //     const yCategories = Array.from(ySet);
 
-            const columnTotals = new Map();
-            xCategories.forEach(x => columnTotals.set(x, 0));
+        //     const columnTotals = new Map();
+        //     xCategories.forEach(x => columnTotals.set(x, 0));
 
-            data.forEach(row => {
-                const xLabel = row[xDimension.key].label || "No Label";
-                const value = row[measureKey].raw || 0;
-                columnTotals.set(xLabel, columnTotals.get(xLabel) + Math.abs(value));
-            });
+        //     data.forEach(row => {
+        //         const xLabel = row[xDimension.key].label || "No Label";
+        //         const value = row[measureKey].raw || 0;
+        //         columnTotals.set(xLabel, columnTotals.get(xLabel) + Math.abs(value));
+        //     });
 
-            // Apply Top N filter if specified
-            const topN = parseInt(this.topN);
-            if (!isNaN(topN) && topN > 0) {
-                const sorted = Array.from(columnTotals.entries()).sort((a, b) => b[1] - a[1]).slice(0, topN).map(entry => entry[0]);
+        //     // Apply Top N filter if specified
+        //     const topN = parseInt(this.topN);
+        //     if (!isNaN(topN) && topN > 0) {
+        //         const sorted = Array.from(columnTotals.entries()).sort((a, b) => b[1] - a[1]).slice(0, topN).map(entry => entry[0]);
 
-                xCategories = sorted;
-            }
+        //         xCategories = sorted;
+        //     }
 
-            // Create heatmap data array
-            const seriesData = data.filter(row => xCategories.includes(row[xDimension.key].label)).map(row => {
-                const xLabel = row[xDimension.key].label || 'No Label';
-                const yLabel = row[yDimension.key].label || 'No Label';
-                const rawValue = row[measureKey].raw || 0;
-                const colTotal = columnTotals.get(xLabel) || 1;
-                const proportion = rawValue / colTotal;
+        //     // Create heatmap data array
+        //     const seriesData = data.filter(row => xCategories.includes(row[xDimension.key].label)).map(row => {
+        //         const xLabel = row[xDimension.key].label || 'No Label';
+        //         const yLabel = row[yDimension.key].label || 'No Label';
+        //         const rawValue = row[measureKey].raw || 0;
+        //         const colTotal = columnTotals.get(xLabel) || 1;
+        //         const proportion = rawValue / colTotal;
 
-                return {
-                    x: xCategories.indexOf(xLabel),
-                    y: yCategories.indexOf(yLabel),
-                    value: proportion,
-                    rawValue: rawValue
-                };
-            });
+        //         return {
+        //             x: xCategories.indexOf(xLabel),
+        //             y: yCategories.indexOf(yLabel),
+        //             value: proportion,
+        //             rawValue: rawValue
+        //         };
+        //     });
 
-            return {
-                xCategories,
-                yCategories,
-                data: seriesData
-            };
-        }
+        //     return {
+        //         xCategories,
+        //         yCategories,
+        //         data: seriesData
+        //     };
+        // }
 
         _renderChart() {
             const dataBinding = this.dataBinding;
@@ -209,9 +189,9 @@ import { parseMetadata } from './data/metadataParser';
                 return;
             }
 
-            const xCategories = this._processSeriesData(data, dimensions, measures).xCategories;
-            const yCategories = this._processSeriesData(data, dimensions, measures).yCategories;
-            const seriesData = this._processSeriesData(data, dimensions, measures).data;
+            const xCategories = processSeriesData(data, dimensions, measures, this.topN).xCategories;
+            const yCategories = processSeriesData(data, dimensions, measures, this.topN).yCategories;
+            const seriesData = processSeriesData(data, dimensions, measures, this.topN).data;
             console.log('xCategories:', xCategories);
             console.log('yCategories:', yCategories);
             console.log('seriesData:', seriesData);
