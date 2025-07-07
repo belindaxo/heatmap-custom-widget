@@ -5,7 +5,7 @@ import * as Highcharts from 'highcharts';
 import 'highcharts/modules/heatmap';
 import HighchartsCustomEvents from 'highcharts-custom-events';
 HighchartsCustomEvents(Highcharts);
-import { handleXAxisLabelClick, handleYAxisLabelClick, handlePointClick } from './interactions/eventHandlers';
+import { handleXAxisLabelClick, handleYAxisLabelClick } from './interactions/eventHandlers';
 import { scaleValue } from './formatting/scaleFormatter';
 
 /**
@@ -65,7 +65,6 @@ var parseMetadata = metadata => {
             `;
 
             this._selectedLabel = null; 
-            //this._selectedPoint = null;
         }
 
         /**
@@ -94,7 +93,6 @@ var parseMetadata = metadata => {
                 this._chart = null;
             }
             this._selectedLabel = null; 
-            this._selectedPoint = null;
         }
 
         /**
@@ -200,7 +198,6 @@ var parseMetadata = metadata => {
                     this._chart.destroy();
                     this._chart = null;
                     this._selectedLabel = null;
-                    this._selectedPoint = null;
                 }
                 return;
             }
@@ -216,7 +213,6 @@ var parseMetadata = metadata => {
                     this._chart.destroy();
                     this._chart = null;
                     this._selectedLabel = null;
-                    this._selectedPoint = null;
                 }
                 return;
             }
@@ -350,18 +346,6 @@ var parseMetadata = metadata => {
                     y: 25,
                     symbolHeight: 280
                 },
-                // plotOptions: {
-                //     series: {
-                //         allowPointSelect: true,
-                //         cursor: 'pointer',
-                //         point: {
-                //             events: {
-                //                 select: onPointClick,
-                //                 unselect: onPointClick
-                //             }
-                //         }
-                //     }
-                // },
                 series
             }
             this._chart = Highcharts.chart(this.shadowRoot.getElementById('container'), chartOptions);
