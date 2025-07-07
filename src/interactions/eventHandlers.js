@@ -12,6 +12,11 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
 
     const linkedAnalysis = widget.dataBindings.getDataBinding('dataBinding').getLinkedAnalysis();
 
+    if (widget._selectedPoint) {
+        widget._selectedPoint.select(false, false);
+        widget._selectedPoint = null;
+    }
+
     if (widget._selectedLabel === target) {
         // If the same label is clicked again, remove filters
         linkedAnalysis.removeFilters();
@@ -61,6 +66,11 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     console.log('Selected Item:', selectedItem);
 
     const linkedAnalysis = widget.dataBindings.getDataBinding('dataBinding').getLinkedAnalysis();
+
+    if (widget._selectedPoint) {
+        widget._selectedPoint.select(false, false);
+        widget._selectedPoint = null;
+    }
 
     if (widget._selectedLabel === target) {
         // If the same label is clicked again, remove filters
