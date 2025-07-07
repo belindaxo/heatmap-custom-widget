@@ -1,3 +1,4 @@
+import * as Highcharts from 'highcharts';
 /**
  * Formats data labels based on the selected scale format.
  * @param {Function} scaleFormat - A function that formats values.

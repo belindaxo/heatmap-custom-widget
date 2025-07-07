@@ -9,6 +9,7 @@ import { handleXAxisLabelClick, handleYAxisLabelClick } from './interactions/eve
 import { scaleValue } from './formatting/scaleFormatter';
 import { formatTooltip } from './formatting/tooltipFormatter';
 import { formatDataLabels } from './formatting/labelFormatter';
+import { toggleAxisTitles, updateSubtitle, updateTitle } from './utils/chartUtils';
 
 /**
  * Parses metadata into structured dimensions and measures.
@@ -227,16 +228,16 @@ var parseMetadata = metadata => {
             console.log('seriesData:', seriesData);
 
             const scaleFormat = (value) => scaleValue(value, this.scaleFormat, this.decimalPlaces);
-            const subtitleText = this._updateSubtitle();
+            const subtitleText = updateSubtitle(this.chartSubtitle, this.scaleFormat);
 
             const xLabel = dimensions[0].description || 'X Axis';
             const yLabel = dimensions[1].description || 'Y Axis';
             const measureLabel = measures[0].label || 'Measure';
 
             const autoTitle = `${measureLabel} per ${xLabel}, ${yLabel}`;
-            const titleText = this._updateTitle(autoTitle, this.chartTitle);
-            const axisTitleX = this._toggleAxisTitles(this.showAxisTitles, dimensions[0]);
-            const axisTitleY = this._toggleAxisTitles(this.showAxisTitles, dimensions[1]);
+            const titleText = updateTitle(autoTitle, this.chartTitle);
+            const axisTitleX = toggleAxisTitles(this.showAxisTitles, dimensions[0]);
+            const axisTitleY = toggleAxisTitles(this.showAxisTitles, dimensions[1]);
 
             const onXLabelClick = (event) => handleXAxisLabelClick(event, dataBinding, dimensions, this);
             const onYLabelClick = (event) => handleYAxisLabelClick(event, dataBinding, dimensions, this);
@@ -353,86 +354,46 @@ var parseMetadata = metadata => {
             this._chart = Highcharts.chart(this.shadowRoot.getElementById('container'), chartOptions);
         }
 
-        /**
-         * Determines subtitle text based on scale format or user input.
-         * @returns {string} The subtitle text.
-         */
-        _updateSubtitle() {
-            if (!this.chartSubtitle || this.chartSubtitle === '') {
-                let subtitleText = '';
-                switch (this.scaleFormat) {
-                    case 'k':
-                        subtitleText = 'in k';
-                        break;
-                    case 'm':
-                        subtitleText = 'in m';
-                        break;
-                    case 'b':
-                        subtitleText = 'in b';
-                        break;
-                    default:
-                        subtitleText = '';
-                        break;
-                }
-                return subtitleText;
-            } else {
-                return this.chartSubtitle;
-            }
-        }
-
-        _updateTitle(autoTitle, chartTitle) {
-            if (!chartTitle || chartTitle === '') {
-                return autoTitle;
-            } else {
-                return chartTitle;
-            }
-        }
-
-        _toggleAxisTitles(showAxisTitles, dimension) {
-            if (showAxisTitles) {
-                return dimension.description || 'Axis';
-            } else {
-                return '';
-            }
-        }
-
-        // _formatDataLabels(scaleFormat) {
-        //     return function () {
-        //         const rawValue = this.rawValue;
-        //         const { scaledValue, valueSuffix } = scaleFormat(rawValue);
-        //         const value = Highcharts.numberFormat(scaledValue, -1, '.', ',');
-        //         return `${value}`;
+        // /**
+        //  * Determines subtitle text based on scale format or user input.
+        //  * @returns {string} The subtitle text.
+        //  */
+        // _updateSubtitle() {
+        //     if (!this.chartSubtitle || this.chartSubtitle === '') {
+        //         let subtitleText = '';
+        //         switch (this.scaleFormat) {
+        //             case 'k':
+        //                 subtitleText = 'in k';
+        //                 break;
+        //             case 'm':
+        //                 subtitleText = 'in m';
+        //                 break;
+        //             case 'b':
+        //                 subtitleText = 'in b';
+        //                 break;
+        //             default:
+        //                 subtitleText = '';
+        //                 break;
+        //         }
+        //         return subtitleText;
+        //     } else {
+        //         return this.chartSubtitle;
         //     }
         // }
 
-        // _formatTooltip(scaleFormat, dimensions) {
-        //     return function () {
-        //         const seriesName = this.series.name || 'Series';
-        //         const rawValue = this.rawValue;
-        //         const { scaledValue, valueSuffix } = scaleFormat(rawValue);
-        //         const value = Highcharts.numberFormat(scaledValue, -1, '.', ',');
-        //         const valueWithSuffix = `${value} ${valueSuffix}`;
-        //         const xLabel = this.category;
-        //         const yLabel = this.series.yAxis.categories[this.y];
-        //         const xDim = dimensions[0].description || 'X Axis';
-        //         const yDim = dimensions[1].description || 'Y Axis';
-        //         return `
-        //             <div style="text-align: left; font-family: '72', sans-serif; font-size: 14px;">
-        //                 <div style="font-size: 14px; font-weight: normal; color: #666666;">${seriesName}</div>
-        //                 <div style="font-size: 18px; font-weight: normal; color: #000000;">${valueWithSuffix}</div>
-        //                 <hr style="border: none; border-top: 1px solid #eee; margin: 5px 0;">
-        //                 <table style="width: 100%; font-size: 14px; color: #000000;">
-        //                     <tr>
-        //                         <td style="text-align: left; padding-right: 10px;">${xDim}</td>
-        //                         <td style="text-align: right; padding-left: 10px;">${xLabel}</td>
-        //                     </tr>
-        //                     <tr>
-        //                         <td style="text-align: left; padding-right: 10px;">${yDim}</td>
-        //                         <td style="text-align: right; padding-left: 10px;">${yLabel}</td>
-        //                     </tr>
-        //                 </table>
-        //             </div>
-        //         `;
+        // _updateTitle(autoTitle, chartTitle) {
+        //     if (!chartTitle || chartTitle === '') {
+        //         return autoTitle;
+        //     } else {
+        //         return chartTitle;
+        //     }
+        // }
+
+        // _toggleAxisTitles(showAxisTitles, dimension) {
+        //     if (showAxisTitles) {
+        //         return dimension.description || 'Axis';
+        //     } else {
+        //         return '';
         //     }
         // }
     }
