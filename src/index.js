@@ -9,7 +9,9 @@ import { handleXAxisLabelClick, handleYAxisLabelClick } from './interactions/eve
 import { scaleValue } from './formatting/scaleFormatter';
 import { formatTooltip } from './formatting/tooltipFormatter';
 import { formatDataLabels } from './formatting/labelFormatter';
-import { toggleAxisTitles, updateSubtitle, updateTitle } from './utils/chartUtils';
+import { toggleAxisTitles, updateSubtitle, updateTitle } from './config/chartUtils';
+import { createChartStylesheet } from './config/styles';
+import { applyHighchartsDefaults } from './config/highchartsSetup';
 
 /**
  * Parses metadata into structured dimensions and measures.
@@ -45,22 +47,8 @@ var parseMetadata = metadata => {
             super();
             this.attachShadow({ mode: 'open' });
 
-            // Create a CSSStyleSheet for the shadow DOM
-            const sheet = new CSSStyleSheet();
-            sheet.replaceSync(`
-                @font-face {
-                    font-family: '72';
-                    src: url('../fonts/72-Regular.woff2') format('woff2');
-                }
-                #container {
-                    width: 100%;
-                    height: 100%;
-                    font-family: '72';
-                }
-            `);
-
-            // Apply the stylesheet to the shadow DOM
-            this.shadowRoot.adoptedStyleSheets = [sheet];
+           // Apply the stylesheet to the shadow DOM
+            this.shadowRoot.adoptedStyleSheets = [createChartStylesheet()];
 
             // Add the container for the chart
             this.shadowRoot.innerHTML = `
@@ -254,12 +242,7 @@ var parseMetadata = metadata => {
             }];
             console.log('series:', series);
 
-            Highcharts.setOptions({
-                lang: {
-                    thousandsSep: ','
-                },
-                colors: ['#004b8d', '#939598', '#faa834', '#00aa7e', '#47a5dc', '#006ac7', '#ccced2', '#bf8028', '#00e4a7']
-            });
+            applyHighchartsDefaults();
 
             const chartOptions = {
                 chart: {
@@ -353,49 +336,6 @@ var parseMetadata = metadata => {
             }
             this._chart = Highcharts.chart(this.shadowRoot.getElementById('container'), chartOptions);
         }
-
-        // /**
-        //  * Determines subtitle text based on scale format or user input.
-        //  * @returns {string} The subtitle text.
-        //  */
-        // _updateSubtitle() {
-        //     if (!this.chartSubtitle || this.chartSubtitle === '') {
-        //         let subtitleText = '';
-        //         switch (this.scaleFormat) {
-        //             case 'k':
-        //                 subtitleText = 'in k';
-        //                 break;
-        //             case 'm':
-        //                 subtitleText = 'in m';
-        //                 break;
-        //             case 'b':
-        //                 subtitleText = 'in b';
-        //                 break;
-        //             default:
-        //                 subtitleText = '';
-        //                 break;
-        //         }
-        //         return subtitleText;
-        //     } else {
-        //         return this.chartSubtitle;
-        //     }
-        // }
-
-        // _updateTitle(autoTitle, chartTitle) {
-        //     if (!chartTitle || chartTitle === '') {
-        //         return autoTitle;
-        //     } else {
-        //         return chartTitle;
-        //     }
-        // }
-
-        // _toggleAxisTitles(showAxisTitles, dimension) {
-        //     if (showAxisTitles) {
-        //         return dimension.description || 'Axis';
-        //     } else {
-        //         return '';
-        //     }
-        // }
     }
     customElements.define('com-sap-sample-heatmap', Heatmap);
 })();
