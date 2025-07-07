@@ -81,7 +81,7 @@ import { processSeriesData } from './data/dataProcessor';
                 'scaleFormat', 'decimalPlaces',                                                                         // Number formatting properties
                 'showDataLabels', 'allowOverlap',                                                                       // Data label properties
                 'topN',                                                                                                 // Ranking property
-                'minColor', 'maxColor'                                                                                  // Color  properties 
+                'minColor', 'maxColor'                                                                                  // Color properties 
             ];
         }
 
@@ -132,6 +132,7 @@ import { processSeriesData } from './data/dataProcessor';
             console.log('seriesData:', seriesData);
 
             const scaleFormat = (value) => scaleValue(value, this.scaleFormat, this.decimalPlaces);
+            
             const subtitleText = updateSubtitle(this.chartSubtitle, this.scaleFormat);
 
             const xLabel = dimensions[0].description || 'X Axis';
