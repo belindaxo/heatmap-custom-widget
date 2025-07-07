@@ -16,7 +16,7 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
         // If the same label is clicked again, remove filters
         linkedAnalysis.removeFilters();
         widget._selectedLabel = null;
-        widget._selectedPoint.select(false, false);
+        // widget._selectedPoint.select(false, false);
         console.log('Filters removed for label:', label);
         return;
     }
@@ -24,7 +24,7 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
     if (widget._selectedLabel && widget._selectedLabel !== target) {
         // If a different label was previously selected, remove its filters
         linkedAnalysis.removeFilters();
-        widget._selectedPoint.select(false, false);
+        // widget._selectedPoint.select(false, false);
         widget._selectedLabel = null;
     }
 
@@ -56,7 +56,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     if (widget._selectedLabel === target) {
         // If the same label is clicked again, remove filters
         linkedAnalysis.removeFilters();
-        widget._selectedPoint.select(false, false);
+        // widget._selectedPoint.select(false, false);
         widget._selectedLabel = null;
         console.log('Filters removed for label:', label);
         return;
@@ -65,7 +65,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     if (widget._selectedLabel && widget._selectedLabel !== target) {
         // If a different label was previously selected, remove its filters
         linkedAnalysis.removeFilters();
-        widget._selectedPoint.select(false, false);
+        // widget._selectedPoint.select(false, false);
         widget._selectedLabel = null;
     }
 

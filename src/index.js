@@ -64,7 +64,7 @@ var parseMetadata = metadata => {
             `;
 
             this._selectedLabel = null; 
-            this._selectedPoint = null;
+            //this._selectedPoint = null;
         }
 
         /**
