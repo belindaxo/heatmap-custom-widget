@@ -11,7 +11,7 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
     const dimension = dimensions[0];
     const dimensionKey = dimension.key;
     const dimensionId = dimension.id;
-    const label = target.textContent;
+    const label = Array.from(target.childNodes).map(node => node.textContent).join(' ').trim();
     console.log(`Dimension Key: ${dimensionKey}, Dimension ID: ${dimensionId}, Label: ${label}`);
 
     const selectedItem = dataBinding.data.find((item) => item[dimensionKey].label === label);
@@ -73,7 +73,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     const dimension = dimensions[1];
     const dimensionKey = dimension.key;
     const dimensionId = dimension.id;
-    const label = target.textContent;
+    const label = Array.from(target.childNodes).map(node => node.textContent).join(' ').trim();
     console.log(`Dimension Key: ${dimensionKey}, Dimension ID: ${dimensionId}, Label: ${label}`);
 
     const selectedItem = dataBinding.data.find((item) => item[dimensionKey].label === label);
