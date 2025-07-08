@@ -3,6 +3,7 @@
  */
 import * as Highcharts from 'highcharts';
 import 'highcharts/modules/heatmap';
+import 'highcharts/modules/exporting';
 import HighchartsCustomEvents from 'highcharts-custom-events';
 HighchartsCustomEvents(Highcharts);
 import { handleXAxisLabelClick, handleYAxisLabelClick, handlePointClick } from './interactions/eventHandlers';
@@ -11,7 +12,7 @@ import { formatTooltip } from './formatting/tooltipFormatter';
 import { formatDataLabels } from './formatting/labelFormatter';
 import { toggleAxisTitles, updateSubtitle, updateTitle } from './config/chartUtils';
 import { createChartStylesheet } from './config/styles';
-import { applyHighchartsDefaults } from './config/highchartsSetup';
+import { applyHighchartsDefaults, overrideContextButtonSymbol } from './config/highchartsSetup';
 import { parseMetadata } from './data/metadataParser';
 import { processSeriesData } from './data/dataProcessor';
 
@@ -161,6 +162,7 @@ import { processSeriesData } from './data/dataProcessor';
             console.log('series:', series);
 
             applyHighchartsDefaults();
+            overrideContextButtonSymbol();
 
             const chartOptions = {
                 chart: {
@@ -189,6 +191,33 @@ import { processSeriesData } from './data/dataProcessor';
                         fontStyle: this.subtitleFontStyle || "normal",
                         color: this.subtitleColor || "#000000",
                     },
+                },
+                exporting: {
+                    enabled: true,
+                    buttons: {
+                        contextButton: {
+                            enabled: false,
+                        }
+                    },
+                    menuItemDefinitions: {
+                        resetFilters: {
+                            text: 'Reset Filters',
+                            onclick: () => {
+                                const linkedAnalysis = this.dataBindings.getDataBinding('dataBinding').getLinkedAnalysis();
+                                if (linkedAnalysis) {
+                                    linkedAnalysis.removeFilters();
+                                    if (this._selectedPoint) {
+                                        this._selectedPoint.select(false, false);
+                                        this._selectedPoint = null;
+                                    }
+                                    if (this._selectedLabel) {
+                                        this._selectedLabel = null;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
                 },
                 xAxis: {
                     categories: xCategories,
@@ -265,6 +294,37 @@ import { processSeriesData } from './data/dataProcessor';
                 series
             }
             this._chart = Highcharts.chart(this.shadowRoot.getElementById('container'), chartOptions);
+            const container = this.shadowRoot.getElementById('container');
+
+            // Container Event Listeners
+            container.addEventListener("mouseenter", () => {
+                if (this._chart) {
+                    this._chart.update({
+                        exporting: {
+                            buttons: {
+                                contextButton: {
+                                    enabled: true,
+                                    symbol: 'contextButton',
+                                    menuItems: ['resetFilters']
+                                },
+                            },
+                        },
+                    }, true);
+                }
+            });
+            container.addEventListener("mouseleave", () => {
+                if (this._chart) {
+                    this._chart.update({
+                        exporting: {
+                            buttons: {
+                                contextButton: {
+                                    enabled: false,
+                                },
+                            },
+                        },
+                    }, true);
+                }
+            });
         }
 
         // SAC Scripting Methods
