@@ -11,7 +11,12 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
     const dimension = dimensions[0];
     const dimensionKey = dimension.key;
     const dimensionId = dimension.id;
-    const label = Array.from(target.childNodes).map(node => node.textContent.trim()).join(' ').trim();
+    const label = Array.from(target.childNodes)
+        .map(node => node.textContent)
+        .filter(text => text && text.trim().length > 0) // ignore empty or invisible-only spans
+        .join(' ')
+        .replace(/\s+/g, ' ') // collapse multiple spaces
+        .trim();
     console.log(`target.childNodes:`, target.childNodes);
     console.log(`Dimension Key: ${dimensionKey}, Dimension ID: ${dimensionId}, Label: ${label}`);
 
@@ -74,7 +79,12 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     const dimension = dimensions[1];
     const dimensionKey = dimension.key;
     const dimensionId = dimension.id;
-    const label = Array.from(target.childNodes).map(node => node.textContent.trim()).join(' ').trim();
+    const label = Array.from(target.childNodes)
+        .map(node => node.textContent)
+        .filter(text => text && text.trim().length > 0) // ignore empty or invisible-only spans
+        .join(' ')
+        .replace(/\s+/g, ' ') // collapse multiple spaces
+        .trim();
     console.log(`Dimension Key: ${dimensionKey}, Dimension ID: ${dimensionId}, Label: ${label}`);
 
     const selectedItem = dataBinding.data.find((item) => item[dimensionKey].label === label);
