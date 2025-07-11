@@ -110,6 +110,7 @@ import { processSeriesData } from './data/dataProcessor';
                 }
                 return;
             }
+            console.log('dataBinding: ', dataBinding);
 
             const { data, metadata } = dataBinding;
             const { dimensions, measures } = parseMetadata(metadata);
