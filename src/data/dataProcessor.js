@@ -38,7 +38,7 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
     for (const row of data) {
         const xLabel = row[xDimension.key].label || 'No Label';
         const value = row[measureKey].raw ?? 0;
-        xTotals.set(xLabel, (xTotals.get(xLabel) || 0) + value);
+        xTotals.set(xLabel, (xTotals.get(xLabel) || 0) + Math.abs(value));
     }
 
     // Totals by Y (for Y Top N)
@@ -46,7 +46,7 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
     for (const row of data) {
         const yLabel = row[yDimension.key].label || 'No Label';
         const value = row[measureKey].raw ?? 0;
-        yTotals.set(yLabel, (yTotals.get(yLabel) || 0) + value);
+        yTotals.set(yLabel, (yTotals.get(yLabel) || 0) + Math.abs(value));
     }
 
     // Apply X Top N filtering if specified
@@ -76,7 +76,7 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
             continue;
         }
         const value = row[measureKey].raw ?? 0;
-        visibleColumnsTotals.set(xLabel, (visibleColumnsTotals.get(xLabel) || 0) + value);
+        visibleColumnsTotals.set(xLabel, (visibleColumnsTotals.get(xLabel) || 0) + Math.abs(value));
     }
 
     // Create heatmap data array (only visible x and y)
