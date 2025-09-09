@@ -81,7 +81,7 @@ import { processSeriesData } from './data/dataProcessor';
                 'showAxisTitles', 'axisTitleSize', 'axisTitleColor',                                                    // Axis title properties
                 'scaleFormat', 'decimalPlaces',                                                                         // Number formatting properties
                 'showDataLabels', 'allowOverlap',                                                                       // Data label properties
-                'topN',                                                                                                 // Ranking property
+                'xTopN', 'yTopN',                                                                                       // Ranking properties
                 'minColor', 'maxColor'                                                                                  // Color properties 
             ];
         }
@@ -128,7 +128,7 @@ import { processSeriesData } from './data/dataProcessor';
                 return;
             }
 
-            const { xCategories, yCategories, data: seriesData } = processSeriesData(data, dimensions, measures, this.topN);
+            const { xCategories, yCategories, data: seriesData } = processSeriesData(data, dimensions, measures, this.xTopN, this.yTopN);
             console.log('xCategories:', xCategories);
             console.log('yCategories:', yCategories);
             console.log('seriesData:', seriesData);

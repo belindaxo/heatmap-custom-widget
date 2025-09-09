@@ -118,9 +118,13 @@
             "description": "Whether to allow overlapping of data labels",
             "default": false
         },
-        "topN": {
+        "xTopN": {
             "type": "integer",
-            "description": "The number of top items to display"
+            "description": "The number of top categories to include in the heatmap for the X-Axis. If not specified, all categories will be included."
+        },
+        "yTopN": {
+            "type": "integer",
+            "description": "The number of top categories to include in the heatmap for the Y-Axis. If not specified, all categories will be included."
         },
         "minColor": {
             "type": "string",

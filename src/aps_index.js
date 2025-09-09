@@ -197,10 +197,14 @@ const defaultColors = ['#004b8d', '#939598', '#faa834', '#00aa7e', '#47a5dc', '#
         <table>
             <tr>
                 <td>Top N (X-Axis)</td>
+                <td>Top N (Y-Axis)</td>
             </tr>
             <tr>
                 <td>
-                    <input id="topN" type="number" min="1"/>
+                    <input id="xTopN" type="number" min="1"/>
+                </td>
+                <td>
+                    <input id="yTopN" type="number" min="1"/>
                 </td>
             </tr>
         </table>
@@ -277,7 +281,8 @@ const defaultColors = ['#004b8d', '#939598', '#faa834', '#00aa7e', '#47a5dc', '#
             this._shadowRoot.getElementById('decimalPlaces').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('showDataLabels').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('allowOverlap').addEventListener('change', this._submit.bind(this));
-            this._shadowRoot.getElementById('topN').addEventListener('change', this._submit.bind(this));
+            this._shadowRoot.getElementById('xTopN').addEventListener('change', this._submit.bind(this));
+            this._shadowRoot.getElementById('yTopN').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('minColor').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('maxColor').addEventListener('change', this._submit.bind(this));
 
@@ -327,7 +332,8 @@ const defaultColors = ['#004b8d', '#939598', '#faa834', '#00aa7e', '#47a5dc', '#
                         decimalPlaces: this.decimalPlaces,
                         showDataLabels: this.showDataLabels,
                         allowOverlap: this.allowOverlap,
-                        topN: this.topN,
+                        xTopN: this.xTopN,
+                        yTopN: this.yTopN,
                         minColor: this.minColor,
                         maxColor: this.maxColor
                     }
@@ -455,11 +461,18 @@ const defaultColors = ['#004b8d', '#939598', '#faa834', '#00aa7e', '#47a5dc', '#
             this._shadowRoot.getElementById('allowOverlap').checked = value;
         }
 
-        get topN() {
-            return this._shadowRoot.getElementById('topN').value;
+        get xTopN() {
+            return this._shadowRoot.getElementById('xTopN').value;
         }
-        set topN(value) {
-            this._shadowRoot.getElementById('topN').value = value;
+        set xTopN(value) {
+            this._shadowRoot.getElementById('xTopN').value = value;
+        }
+
+        get yTopN() {
+            return this._shadowRoot.getElementById('yTopN').value;
+        }
+        set yTopN(value) {
+            this._shadowRoot.getElementById('yTopN').value = value;
         }
 
         get minColor() {
