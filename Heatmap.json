@@ -14,14 +14,14 @@
             "tag": "com-sap-sample-heatmap",
             "url": "https://belindaxo.github.io/heatmap-custom-widget/dist/bundle.js",
             "integrity": "sha256-IkUhdeVjAfYie2lHZCDhKOF6cL60xnqA0hOF9zJf/hs=",
-            "ignoreIntegrity": false
+            "ignoreIntegrity": true
         },
         {
             "kind": "styling",
             "tag": "com-sap-sample-heatmap-aps",
             "url": "https://belindaxo.github.io/heatmap-custom-widget/dist/bundle.js",
             "integrity": "sha256-IkUhdeVjAfYie2lHZCDhKOF6cL60xnqA0hOF9zJf/hs=",
-            "ignoreIntegrity": false
+            "ignoreIntegrity": true
         }
     ],
     "properties": {
