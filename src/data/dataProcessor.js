@@ -29,7 +29,7 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
     for (const row of data) {
         const xId = row[xDimension.key].id || 'No ID';
         const xLabel = row[xDimension.key].label || 'No Label';
-        if (!xMap.has(xId)) (xId, { id: xId, label: xLabel });
+        if (!xMap.has(xId)) xMap.set(xId, { id: xId, label: xLabel });
 
         const yId = row[yDimension.key].id || 'No ID';
         const yLabel = row[yDimension.key].label || 'No Label';
