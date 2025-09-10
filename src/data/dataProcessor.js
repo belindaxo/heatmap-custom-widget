@@ -22,85 +22,92 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
     const yDimension = dimensions[1];
     const measureKey = measures[0].key;
 
-    const xSet = new Set();
-    const ySet = new Set();
+    const xMap = new Map();
+    const yMap = new Map();
 
     // Collect unique labels
     for (const row of data) {
-        xSet.add(row[xDimension.key].id || 'No Label');
-        ySet.add(row[yDimension.key].id || 'No Label');
+        const xId = row[xDimension.key].id || 'No ID';
+        const xLabel = row[xDimension.key].label || 'No Label';
+        if (!xMap.has(xId)) (xId, { id: xId, label: xLabel });
+
+        const yId = row[yDimension.key].id || 'No ID';
+        const yLabel = row[yDimension.key].label || 'No Label';
+        if (!yMap.has(yId)) yMap.set(yId, { id: yId, label: yLabel });
     }
-    let xCategories = Array.from(xSet);
-    let yCategories = Array.from(ySet);
+    let xCategories = Array.from(xMap.values());
+    let yCategories = Array.from(yMap.values());
 
     // Totals by X (for X Top N)
-    const xTotals = new Map(xCategories.map(x => [x, 0]));
+    const xTotals = new Map(xCategories.map(c => [c.id, 0]));
     for (const row of data) {
-        const xLabel = row[xDimension.key].id || 'No Label';
+        const xId = row[xDimension.key].id || 'No ID';
         const value = row[measureKey].raw ?? 0;
-        xTotals.set(xLabel, (xTotals.get(xLabel) || 0) + Math.abs(value));
+        xTotals.set(xId, (xTotals.get(xId) || 0) + Math.abs(value));
     }
 
     // Totals by Y (for Y Top N)
-    const yTotals = new Map(yCategories.map(y => [y, 0]));
+    const yTotals = new Map(yCategories.map(y => [y.id, 0]));
     for (const row of data) {
-        const yLabel = row[yDimension.key].id || 'No Label';
+        const yId = row[yDimension.key].id || 'No ID';
         const value = row[measureKey].raw ?? 0;
-        yTotals.set(yLabel, (yTotals.get(yLabel) || 0) + Math.abs(value));
+        yTotals.set(yId, (yTotals.get(yId) || 0) + Math.abs(value));
     }
 
     // Apply X Top N filtering if specified
     const xN = parseInt(xTopN);
     if (!Number.isNaN(xN) && xN > 0) {
-        xCategories = Array.from(xTotals.entries())
-            .sort((a, b) => b[1] - a[1]) 
-            .slice(0, xN)               
-            .map(([x]) => x);          
+        const topXIds = Array.from(xTotals.entries())
+            .sort((a,b)=>b[1]-a[1])
+            .slice(0, xN)
+            .map(([id]) => id);
+        xCategories = xCategories.filter(c => topXIds.includes(c.id));
     }
 
     // Apply Y Top N filtering if specified
     const yN = parseInt(yTopN);
     if (!Number.isNaN(yN) && yN > 0) {
-        yCategories = Array.from(yTotals.entries())
-            .sort((a, b) => b[1] - a[1]) 
-            .slice(0, yN)               
-            .map(([y]) => y);          
+        const topYIds = Array.from(yTotals.entries())
+            .sort((a,b)=>b[1]-a[1])
+            .slice(0, yN)
+            .map(([id]) => id);
+        yCategories = yCategories.filter(c => topYIds.includes(c.id));
     }
 
     // Recompute visible columns
-    const visibleColumnsTotals = new Map(xCategories.map(x => [x, 0]));
+    const visibleColumnsTotals = new Map(xCategories.map(c => [c.id, 0]));
     for (const row of data) {
-        const xLabel = row[xDimension.key].id || 'No Label';
-        const yLabel = row[yDimension.key].id || 'No Label';
-        if (!xCategories.includes(xLabel) || !yCategories.includes(yLabel)) {
+        const xId = row[xDimension.key].id || 'No ID';
+        const yId = row[yDimension.key].id || 'No ID';
+        if (!xCategories.some(c=>c.id===xId) || !yCategories.some(c=>c.id===yId)) {
             continue;
         }
         const value = row[measureKey].raw ?? 0;
-        visibleColumnsTotals.set(xLabel, (visibleColumnsTotals.get(xLabel) || 0) + Math.abs(value));
+        visibleColumnsTotals.set(xId, (visibleColumnsTotals.get(xId) || 0) + Math.abs(value));
     }
 
     // Create heatmap data array (only visible x and y)
     const seriesData = [];
     for (const row of data) {
-        const xLabel = row[xDimension.key].id || 'No Label';
-        const yLabel = row[yDimension.key].id || 'No Label';
-        if (!xCategories.includes(xLabel) || !yCategories.includes(yLabel)) {
+        const xId = row[xDimension.key].id || 'No ID';
+        const yId = row[yDimension.key].id || 'No ID';
+        if (!xCategories.some(c=>c.id===xId) || !yCategories.some(c=>c.id===yId)) {
             continue;
         }
         const rawValue = row[measureKey].raw ?? 0;
-        const denom = visibleColumnsTotals.get(xLabel) || 1;
+        const denom = visibleColumnsTotals.get(xId) || 1;
         const proportion = denom === 0 ? 0 : rawValue / denom;
         seriesData.push({
-            x: xCategories.indexOf(xLabel),
-            y: yCategories.indexOf(yLabel),
+            x: xCategories.findIndex(c => c.id === xId),
+            y: yCategories.findIndex(c => c.id === yId),
             value: proportion,
             rawValue
         });
     }
 
     return {
-        xCategories,
-        yCategories,
+        xCategories: xCategories.map(c => c.label),
+        yCategories: yCategories.map(c => c.label),
         data: seriesData
     };
 }
