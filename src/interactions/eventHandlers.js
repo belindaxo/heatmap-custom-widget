@@ -1,3 +1,22 @@
+const getLabelNode = (el) => 
+    el && el.tagName && el.tagName.toLowerCase() === 'tspan' ? el.parentNode : el;
+
+function resetAxisLabelWeights(widget, which) {
+    try {
+        const axis = 
+            which === 'x' ? widget._chart?.xAxis?.[0] : widget._chart?.yAxis?.[0];
+        const root = axis?.labelGroup?.element;
+        if (!root) return;
+        root.querySelectorAll('text').forEach(t => t.setAttribute('font-weight', 'normal'));
+    } catch (e) {
+    }
+}
+
+function resetBothAxisLabelWeights(widget) {
+    resetAxisLabelWeights(widget, 'x');
+    resetAxisLabelWeights(widget, 'y');
+}
+
 /**
  * Event handler for x-axis label click events.
  * @param {Object} event - The event object containing the click event.
@@ -6,7 +25,8 @@
  * @param {Object} widget - Reference to the widget.
  */
 export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
-    const target = event.target;
+    // const target = event.target;
+    const target = getLabelNode(event.target);
     console.log('X Axis label clicked:', target);
     const dimension = dimensions[0];
     const dimensionKey = dimension.key;
@@ -33,7 +53,7 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
         // If the same label is clicked again, remove filters
         linkedAnalysis.removeFilters();
         widget._selectedLabel = null;
-        target.setAttribute('font-weight', 'normal');
+        resetBothAxisLabelWeights(widget);
 
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
@@ -47,9 +67,9 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
     if (widget._selectedLabel && widget._selectedLabel !== target) {
         // If a different label was previously selected, remove its filters
         linkedAnalysis.removeFilters();
+        resetBothAxisLabelWeights(widget);
         widget._selectedLabel = null;
-        target.setAttribute('font-weight', 'normal');
-
+        
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
             widget._selectedPoint = null;
@@ -76,7 +96,7 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
  * @param {Object} widget - Reference to the widget.
  */
 export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
-    const target = event.target;
+    const target = getLabelNode(event.target);
     console.log('Y Axis label clicked:', target);
     const dimension = dimensions[1];
     const dimensionKey = dimension.key;
@@ -102,7 +122,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
         // If the same label is clicked again, remove filters
         linkedAnalysis.removeFilters();
         widget._selectedLabel = null;
-        target.setAttribute('font-weight', 'normal');
+        resetBothAxisLabelWeights(widget);
 
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
@@ -117,8 +137,8 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
         // If a different label was previously selected, remove its filters
         linkedAnalysis.removeFilters();
         widget._selectedLabel = null;
-        target.setAttribute('font-weight', 'normal');
-
+        resetBothAxisLabelWeights(widget);
+        
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
             widget._selectedPoint = null;
