@@ -129,7 +129,7 @@
         "minColor": {
             "type": "string",
             "description": "The color for the minimum value",
-            "default": "#99CFFF"
+            "default": "#FFFFFF"
         },
         "maxColor": {
             "type": "string",

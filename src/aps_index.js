@@ -216,7 +216,7 @@ const defaultColors = ['#004b8d', '#939598', '#faa834', '#00aa7e', '#47a5dc', '#
             </tr>
             <tr>
                 <td>
-                    <input id="minColor" type="color" value="#99CFFF">
+                    <input id="minColor" type="color" value="#FFFFFF">
                 </td>
                 <td>
                     <input id="maxColor" type="color" value="#004B8D">

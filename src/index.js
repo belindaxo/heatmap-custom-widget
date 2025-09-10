@@ -261,7 +261,7 @@ import { processSeriesData } from './data/dataProcessor';
                     }
                 },
                 colorAxis: {
-                    minColor: this.minColor || '#99CFFF',
+                    minColor: this.minColor || '#FFFFFF',
                     maxColor: this.maxColor || Highcharts.getOptions().colors[0],
                 },
                 tooltip: {
