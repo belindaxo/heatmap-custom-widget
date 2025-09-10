@@ -3,9 +3,7 @@
  * @param {Array} data - The raw data from the data binding.
  * @param {Array} dimensions - Array of dimension objects.
  * @param {Array} measures - Array of measure objects.
- * @param {number} xTopN - The number of top categories to include in the heatmap for the X-Axis.
-  * If not specified, all categories will be included.
- * @param {number} yTopN - The number of top categories to include in the heatmap for the Y-Axis.
+ * @param {number} xTopN - The number of top categories to include in the heatmap.
   * If not specified, all categories will be included.
  * @returns {Object} An object containing processed xCategories, yCategories, and data for the heatmap.
  */
@@ -25,71 +23,47 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
     const xSet = new Set();
     const ySet = new Set();
 
-    // Collect unique labels
-    for (const row of data) {
-        xSet.add(row[xDimension.key].label || 'No Label');
-        ySet.add(row[yDimension.key].label || 'No Label');
-    }
+    // Collect unique labels for each dimension
+    data.forEach(row => {
+        const xLabel = row[xDimension.key].label || 'No Label';
+        const yLabel = row[yDimension.key].label || 'No Label';
+        xSet.add(xLabel);
+        ySet.add(yLabel);
+    });
+
     let xCategories = Array.from(xSet);
-    let yCategories = Array.from(ySet);
+    const yCategories = Array.from(ySet);
 
-    // Totals by X (for X Top N)
-    const xTotals = new Map(xCategories.map(x => [x, 0]));
-    for (const row of data) {
-        const xLabel = row[xDimension.key].label || 'No Label';
-        const value = row[measureKey].raw ?? 0;
-        xTotals.set(xLabel, (xTotals.get(xLabel) || 0) + Math.abs(value));
+    const columnTotals = new Map();
+    xCategories.forEach(x => columnTotals.set(x, 0));
+
+    data.forEach(row => {
+        const xLabel = row[xDimension.key].label || "No Label";
+        const value = row[measureKey].raw || 0;
+        columnTotals.set(xLabel, columnTotals.get(xLabel) + Math.abs(value));
+    });
+
+    // Apply Top N filter if specified
+    const xTopNFilter = parseInt(xTopN);
+    if (!isNaN(xTopNFilter) && xTopNFilter > 0) {
+        const sorted = Array.from(columnTotals.entries()).sort((a, b) => b[1] - a[1]).slice(0, xTopNFilter).map(entry => entry[0]);
+
+        xCategories = sorted;
     }
 
-    // Totals by Y (for Y Top N)
-    const yTotals = new Map(yCategories.map(y => [y, 0]));
-    for (const row of data) {
-        const yLabel = row[yDimension.key].label || 'No Label';
-        const value = row[measureKey].raw ?? 0;
-        yTotals.set(yLabel, (yTotals.get(yLabel) || 0) + value);
-    }
-
-    // Apply X Top N filtering if specified
-    const xN = parseInt(xTopN);
-    if (!Number.isNaN(xN) && xN > 0) {
-        xCategories = Array.from(xTotals.entries())
-            .sort((a, b) => b[1] - a[1]) 
-            .slice(0, xN)               
-            .map(([x]) => x);          
-    }
-
-    // Apply Y Top N filtering if specified
-    const yN = parseInt(yTopN);
-    if (!Number.isNaN(yN) && yN > 0) {
-        yCategories = Array.from(yTotals.entries())
-            .sort((a, b) => b[1] - a[1]) 
-            .slice(0, yN)               
-            .map(([y]) => y);          
-    }
-
-    // Recompute visible columns
-    const visibleColumnsTotals = new Map(xCategories.map(x => [x, 0]));
-    for (const row of data) {
-        const xLabel = row[xDimension.key].label || 'No Label';
-        const yLabel = row[yDimension.key].label || 'No Label';
-        if (!xCategories.includes(xLabel) || !yCategories.includes(yLabel)) {
-            continue;
-        }
-        const value = row[measureKey].raw ?? 0;
-        visibleColumnsTotals.set(xLabel, (visibleColumnsTotals.get(xLabel) || 0) + value);
-    }
-
+    // Create heatmap data array
     const seriesData = data.filter(row => xCategories.includes(row[xDimension.key].label)).map(row => {
         const xLabel = row[xDimension.key].label || 'No Label';
         const yLabel = row[yDimension.key].label || 'No Label';
         const rawValue = row[measureKey].raw || 0;
-        const colTotal = visibleColumnsTotals.get(xLabel) || 1;
+        const colTotal = columnTotals.get(xLabel) || 1;
         const proportion = rawValue / colTotal;
+
         return {
             x: xCategories.indexOf(xLabel),
             y: yCategories.indexOf(yLabel),
             value: proportion,
-            rawValue
+            rawValue: rawValue
         };
     });
 
