@@ -27,8 +27,8 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
 
     // Collect unique labels
     for (const row of data) {
-        xSet.add(row[xDimension.key].label || 'No Label');
-        ySet.add(row[yDimension.key].label || 'No Label');
+        xSet.add(row[xDimension.key].id || 'No Label');
+        ySet.add(row[yDimension.key].id || 'No Label');
     }
     let xCategories = Array.from(xSet);
     let yCategories = Array.from(ySet);
@@ -36,7 +36,7 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
     // Totals by X (for X Top N)
     const xTotals = new Map(xCategories.map(x => [x, 0]));
     for (const row of data) {
-        const xLabel = row[xDimension.key].label || 'No Label';
+        const xLabel = row[xDimension.key].id || 'No Label';
         const value = row[measureKey].raw ?? 0;
         xTotals.set(xLabel, (xTotals.get(xLabel) || 0) + Math.abs(value));
     }
@@ -44,7 +44,7 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
     // Totals by Y (for Y Top N)
     const yTotals = new Map(yCategories.map(y => [y, 0]));
     for (const row of data) {
-        const yLabel = row[yDimension.key].label || 'No Label';
+        const yLabel = row[yDimension.key].id || 'No Label';
         const value = row[measureKey].raw ?? 0;
         yTotals.set(yLabel, (yTotals.get(yLabel) || 0) + Math.abs(value));
     }
@@ -70,8 +70,8 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
     // Recompute visible columns
     const visibleColumnsTotals = new Map(xCategories.map(x => [x, 0]));
     for (const row of data) {
-        const xLabel = row[xDimension.key].label || 'No Label';
-        const yLabel = row[yDimension.key].label || 'No Label';
+        const xLabel = row[xDimension.key].id || 'No Label';
+        const yLabel = row[yDimension.key].id || 'No Label';
         if (!xCategories.includes(xLabel) || !yCategories.includes(yLabel)) {
             continue;
         }
@@ -82,8 +82,8 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
     // Create heatmap data array (only visible x and y)
     const seriesData = [];
     for (const row of data) {
-        const xLabel = row[xDimension.key].label || 'No Label';
-        const yLabel = row[yDimension.key].label || 'No Label';
+        const xLabel = row[xDimension.key].id || 'No Label';
+        const yLabel = row[yDimension.key].id || 'No Label';
         if (!xCategories.includes(xLabel) || !yCategories.includes(yLabel)) {
             continue;
         }
