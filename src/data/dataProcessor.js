@@ -101,7 +101,8 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
             x: xCategories.findIndex(c => c.id === xId),
             y: yCategories.findIndex(c => c.id === yId),
             value: proportion,
-            rawValue
+            rawValue,
+            color: rawValue < 0 ? '#FFC0CB' : undefined
         });
     }
 
