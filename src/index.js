@@ -110,13 +110,9 @@ import { processSeriesData } from './data/dataProcessor';
                 }
                 return;
             }
-            console.log('dataBinding: ', dataBinding);
 
             const { data, metadata } = dataBinding;
             const { dimensions, measures } = parseMetadata(metadata);
-            console.log('dimensions:', dimensions);
-            console.log('measures:', measures);
-            console.log('data:', data);
 
             if (dimensions.length < 2 || measures.length < 1) {
                 if (this._chart) {
@@ -129,9 +125,6 @@ import { processSeriesData } from './data/dataProcessor';
             }
 
             const { xCategories, yCategories, data: seriesData } = processSeriesData(data, dimensions, measures, this.xTopN, this.yTopN);
-            console.log('xCategories:', xCategories);
-            console.log('yCategories:', yCategories);
-            console.log('seriesData:', seriesData);
 
             const scaleFormat = (value) => scaleValue(value, this.scaleFormat, this.decimalPlaces);
             
@@ -160,7 +153,6 @@ import { processSeriesData } from './data/dataProcessor';
                     formatter: formatDataLabels(scaleFormat)
                 }
             }];
-            console.log('series:', series);
 
             applyHighchartsDefaults();
             overrideContextButtonSymbol();
@@ -354,7 +346,6 @@ import { processSeriesData } from './data/dataProcessor';
         removeHeatmapMember(memberId) {
             const dataBinding = this.dataBindings.getDataBinding('dataBinding');
             dataBinding.removeMember(memberId);
-            console.log('removeHeatmapMember - memberId:', memberId);
         }
 
         /**
@@ -364,7 +355,6 @@ import { processSeriesData } from './data/dataProcessor';
         removeHeatmapDimension(dimensionId) {
             const dataBinding = this.dataBindings.getDataBinding('dataBinding');
             dataBinding.removeDimension(dimensionId);
-            console.log('removeHeatmapDimension - dimensionId:', dimensionId);
         }
 
         /**
@@ -374,7 +364,6 @@ import { processSeriesData } from './data/dataProcessor';
         addHeatmapMember(memberId) {
             const dataBinding = this.dataBindings.getDataBinding('dataBinding');
             dataBinding.addMemberToFeed('measures', memberId);
-            console.log('addHeatmapMember - memberId:', memberId);
         }
 
         /**
@@ -384,7 +373,6 @@ import { processSeriesData } from './data/dataProcessor';
         addHeatmapDimension(dimensionId) {
             const dataBinding = this.dataBindings.getDataBinding('dataBinding');
             dataBinding.addDimensionToFeed('dimensions', dimensionId);
-            console.log('addHeatmapDimension - dimensionId:', dimensionId);
         }
     }
     customElements.define('com-sap-sample-heatmap', Heatmap);

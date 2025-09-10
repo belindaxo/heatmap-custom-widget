@@ -27,7 +27,6 @@ function resetBothAxisLabelWeights(widget) {
 export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
     // const target = event.target;
     const target = getLabelNode(event.target);
-    console.log('X Axis label clicked:', target);
     const dimension = dimensions[0];
     const dimensionKey = dimension.key;
     const dimensionId = dimension.id;
@@ -36,11 +35,8 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
         .filter(text => text.length > 0)
         .join(' ')
         .trim();
-    console.log(`target.childNodes:`, target.childNodes);
-    console.log(`Dimension Key: ${dimensionKey}, Dimension ID: ${dimensionId}, Label: ${label}`);
 
     const selectedItem = dataBinding.data.find((item) => item[dimensionKey].label === label);
-    console.log('Selected Item:', selectedItem);
 
     const linkedAnalysis = widget.dataBindings.getDataBinding('dataBinding').getLinkedAnalysis();
 
@@ -60,7 +56,6 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
             widget._selectedPoint = null;
         }
 
-        console.log('Filters removed for label:', label);
         return;
     }
 
@@ -79,9 +74,6 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
     if (selectedItem) {
         const selection = {};
         selection[dimensionId] = selectedItem[dimensionKey].id;
-        console.log('Selection:', selection);
-        console.log('selection[dimensionId]:', selection[dimensionId]);
-        console.log('selectedItem[dimensionKey].id:', selectedItem[dimensionKey].id);
         linkedAnalysis.setFilters(selection);
         widget._selectedLabel = target;
         target.setAttribute('font-weight', 'bold');
@@ -97,7 +89,6 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
  */
 export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     const target = getLabelNode(event.target);
-    console.log('Y Axis label clicked:', target);
     const dimension = dimensions[1];
     const dimensionKey = dimension.key;
     const dimensionId = dimension.id;
@@ -106,10 +97,8 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
         .filter(text => text.length > 0)
         .join(' ')
         .trim();
-    console.log(`Dimension Key: ${dimensionKey}, Dimension ID: ${dimensionId}, Label: ${label}`);
 
     const selectedItem = dataBinding.data.find((item) => item[dimensionKey].label === label);
-    console.log('Selected Item:', selectedItem);
 
     const linkedAnalysis = widget.dataBindings.getDataBinding('dataBinding').getLinkedAnalysis();
 
@@ -129,7 +118,6 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
             widget._selectedPoint = null;
         }
 
-        console.log('Filters removed for label:', label);
         return;
     }
 
@@ -138,7 +126,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
         linkedAnalysis.removeFilters();
         widget._selectedLabel = null;
         resetBothAxisLabelWeights(widget);
-        
+
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
             widget._selectedPoint = null;
@@ -148,9 +136,6 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
     if (selectedItem) {
         const selection = {};
         selection[dimensionId] = selectedItem[dimensionKey].id;
-        console.log('Selection:', selection);
-        console.log('selection[dimensionId]:', selection[dimensionId]);
-        console.log('selectedItem[dimensionKey].id:', selectedItem[dimensionKey].id);
         linkedAnalysis.setFilters(selection);
         widget._selectedLabel = target;
         target.setAttribute('font-weight', 'bold');
@@ -166,9 +151,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
  */
 export function handlePointClick(event, dataBinding, dimensions, widget) {
     const point = event.target;
-    console.log('Point clicked:', point);
     if (!point) {
-        console.log('Point undefined');
         return;
     }
 
