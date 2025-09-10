@@ -89,7 +89,7 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
         }
         const rawValue = row[measureKey].raw ?? 0;
         const denom = visibleColumnsTotals.get(xLabel) || 1;
-        const proportion = denom === 0 ? 0 : rawValue / denom;
+        const proportion = denom === 0 ? 0 : Math.abs(rawValue) / denom;
         seriesData.push({
             x: xCategories.indexOf(xLabel),
             y: yCategories.indexOf(yLabel),
