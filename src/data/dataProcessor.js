@@ -79,23 +79,19 @@ export function processSeriesData(data, dimensions, measures, xTopN, yTopN) {
         visibleColumnsTotals.set(xLabel, (visibleColumnsTotals.get(xLabel) || 0) + value);
     }
 
-    // Create heatmap data array (only visible x and y)
-    const seriesData = [];
-    for (const row of data) {
+    const seriesData = data.filter(row => xCategories.includes(row[xDimension.key].label)).map(row => {
         const xLabel = row[xDimension.key].label || 'No Label';
         const yLabel = row[yDimension.key].label || 'No Label';
-        if (!xCategories.includes(xLabel) || !yCategories.includes(yLabel)) {
-            continue;
-        }
-        const rawValue = row[measureKey].raw ?? 0;
-        const denom = visibleColumnsTotals.get(xLabel) || 1;
-        const proportion = denom === 0 ? 0 : Math.abs(rawValue) / denom;
-        seriesData.push({
+        const rawValue = row[measureKey].raw || 0;
+        const colTotal = visibleColumnsTotals.get(xLabel) || 1;
+        const proportion = rawValue / colTotal;
+        return {
             x: xCategories.indexOf(xLabel),
             y: yCategories.indexOf(yLabel),
-            value: rawValue
-        });
-    }
+            value: proportion,
+            rawValue
+        };
+    });
 
     return {
         xCategories,
