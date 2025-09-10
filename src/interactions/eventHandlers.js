@@ -33,6 +33,7 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
         // If the same label is clicked again, remove filters
         linkedAnalysis.removeFilters();
         widget._selectedLabel = null;
+        target.setAttribute('font-weight', 'normal');
 
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
@@ -47,6 +48,7 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
         // If a different label was previously selected, remove its filters
         linkedAnalysis.removeFilters();
         widget._selectedLabel = null;
+        target.setAttribute('font-weight', 'normal');
 
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
@@ -62,6 +64,7 @@ export function handleXAxisLabelClick(event, dataBinding, dimensions, widget) {
         console.log('selectedItem[dimensionKey].id:', selectedItem[dimensionKey].id);
         linkedAnalysis.setFilters(selection);
         widget._selectedLabel = target;
+        target.setAttribute('font-weight', 'bold');
     }
 }
 
@@ -99,6 +102,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
         // If the same label is clicked again, remove filters
         linkedAnalysis.removeFilters();
         widget._selectedLabel = null;
+        target.setAttribute('font-weight', 'normal');
 
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
@@ -113,6 +117,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
         // If a different label was previously selected, remove its filters
         linkedAnalysis.removeFilters();
         widget._selectedLabel = null;
+        target.setAttribute('font-weight', 'normal');
 
         if (widget._selectedPoint) {
             widget._selectedPoint.select(false, false);
@@ -128,6 +133,7 @@ export function handleYAxisLabelClick(event, dataBinding, dimensions, widget) {
         console.log('selectedItem[dimensionKey].id:', selectedItem[dimensionKey].id);
         linkedAnalysis.setFilters(selection);
         widget._selectedLabel = target;
+        target.setAttribute('font-weight', 'bold');
     }
 }
 
