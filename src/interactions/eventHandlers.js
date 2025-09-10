@@ -172,6 +172,8 @@ export function handlePointClick(event, dataBinding, dimensions, widget) {
     if (widget._selectedPoint && widget._selectedPoint !== point) {
         widget._selectedPoint.select(false, false);
     }
+
+    resetBothAxisLabelWeights(widget);
     widget._selectedLabel = null;
     widget._selectedPoint = null;
 
