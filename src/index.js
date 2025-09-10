@@ -134,7 +134,7 @@ import { processSeriesData } from './data/dataProcessor';
             console.log('seriesData:', seriesData);
 
             const scaleFormat = (value) => scaleValue(value, this.scaleFormat, this.decimalPlaces);
-
+            
             const subtitleText = updateSubtitle(this.chartSubtitle, this.scaleFormat);
 
             const xLabel = dimensions[0].description || 'X Axis';
@@ -261,15 +261,8 @@ import { processSeriesData } from './data/dataProcessor';
                     }
                 },
                 colorAxis: {
-                    min: -1,  // minimum proportion (negative)
-                    max: 1,   // maximum proportion (positive)
-                    stops: [
-                        [0, '#cc1414ff'],  // red for negative
-                        [0.5, '#ffffff'], // white for neutral (zero)
-                        [1, '#004b8d']    // blue/green for positive
-                    ],
-                    // minColor: this.minColor || '#FFFFFF',
-                    // maxColor: this.maxColor || Highcharts.getOptions().colors[0],
+                    minColor: this.minColor || '#FFFFFF',
+                    maxColor: this.maxColor || Highcharts.getOptions().colors[0],
                 },
                 tooltip: {
                     useHTML: true,
